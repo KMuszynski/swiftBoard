@@ -1,5 +1,7 @@
 import Router from "./router";
 
-const App = () => <Router />;
+const App = () => <div>
+  <Router />
+  </div>
 
 export default App;
