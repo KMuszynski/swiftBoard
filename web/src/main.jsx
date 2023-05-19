@@ -5,8 +5,7 @@ import ReactDOM from 'react-dom/client'
 import {Provider} from 'react-redux'
 import {BrowserRouter} from 'react-router-dom'
 
-import App from './App.jsx'
-import './index.css'
+import Router from './router'
 import {store} from './store'
 import theme, {ToastContainer} from './theme'
 import Fonts from './theme/foundations/fonts'
@@ -19,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Fonts />
         <ToastContainer />
         <Provider store={store}>
-          <App />
+          <Router />
         </Provider>
       </ChakraProvider>
     </BrowserRouter>
