@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <ChakraProvider theme={theme} toastOptions={{defaultOptions: {isClosable: true}}}>
-        {/* <Fonts /> bartek */}
+        <Fonts />
         <ToastContainer />
         <Provider store={store}>
           <Router />

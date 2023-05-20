@@ -1,6 +1,6 @@
 import {Menu, MenuButton, MenuList, Text, useColorModeValue} from '@chakra-ui/react'
 
-import SignInForm from '@/auth/signin/form'
+import SignInForm from '../../../../auth/signin/form'
 
 const SignInMenu = () => (
   <Menu placement="bottom-end" isLazy>

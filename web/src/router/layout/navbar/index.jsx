@@ -1,11 +1,11 @@
-import { Container, Flex } from "@chakra-ui/react";
+import {Container, Flex} from '@chakra-ui/react'
 
-import Logo from "./logo";
-import NavbarMenu from "./menu";
+import Logo from './logo'
+import NavbarMenu from './menu'
 
 const Navbar = () => {
   return (
-    <Flex py={4} minH="60px" boxShadow="lg">
+    <Flex py={4} minH="60px" boxShadow="lg" bg="gray.800">
       <Container maxW="container.xl">
         <Flex align="center" justify="space-between">
           <Logo />
@@ -13,7 +13,7 @@ const Navbar = () => {
         </Flex>
       </Container>
     </Flex>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

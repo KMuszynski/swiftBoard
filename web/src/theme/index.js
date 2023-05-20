@@ -1,6 +1,5 @@
 import {createStandaloneToast, extendTheme} from '@chakra-ui/react'
 
-import * as components from './components'
 import {FONT_AVENIR} from './contants'
 import * as foundations from './foundations'
 
@@ -10,9 +9,6 @@ const theme = extendTheme({
     useSystemColorMode: true,
   },
   ...foundations,
-  components: {
-    ...components,
-  },
   fonts: {
     heading: FONT_AVENIR,
     body: FONT_AVENIR,

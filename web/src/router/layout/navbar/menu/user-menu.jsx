@@ -1,14 +1,13 @@
 import * as React from 'react'
 
 import {Avatar, HStack, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Tag, Text} from '@chakra-ui/react'
+import {useSelector} from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
 
-import {supabase} from '@/api'
-import {Can} from '@/auth/abilities'
-import {selectProfile} from '@/auth/state'
-import {useLoadingState} from '@/common/hooks'
-import {ADMIN_PANEL, USER_PROFILE} from '@/router/paths'
-import {useAppSelector} from '@/store'
+import {supabase} from '../../../../api'
+import {selectProfile} from '../../../../auth/state'
+import useLoadingState from '../../../../common/hooks/use-loading-state'
+import {ADMIN_PANEL, USER_PROFILE} from '../../../../router/paths'
 
 const toasts = {
   onErrorToast: 'Wylogowywanie nie powiodło się',
@@ -16,7 +15,7 @@ const toasts = {
 
 const UserMenu = () => {
   const navigate = useNavigate()
-  const user = useAppSelector(selectProfile)
+  const user = useSelector(selectProfile)
 
   const [handleSignOut, loading] = useLoadingState(
     React.useCallback(async () => {
@@ -40,11 +39,11 @@ const UserMenu = () => {
         <MenuItem as={Link} to={USER_PROFILE} isDisabled={loading}>
           Twoje konto
         </MenuItem>
-        <Can I="access" an="AdminPanel">
+        {user.role === 'admin' && (
           <MenuItem as={Link} to={ADMIN_PANEL} isDisabled={loading}>
             Panel administratora
           </MenuItem>
-        </Can>
+        )}
         <MenuDivider />
         <MenuItem onClick={handleSignOut} isDisabled={loading}>
           Wyloguj się
