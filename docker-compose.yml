@@ -116,7 +116,6 @@ services:
       GOTRUE_MAILER_SUBJECTS_RECOVERY: "Zmiana hasła na budoAkademia.pl"
 
   rest:
-    container_name: supabase-rest
     image: postgrest/postgrest:v10.1.2
     depends_on:
       postgres:

@@ -1,5 +1,5 @@
 import {createClient} from '@supabase/supabase-js'
 
-import {VITE_SUPABASE_KEY, VITE_SUPABASE_URL} from './constants'
+import {SUPABASE_KEY, SUPABASE_URL} from './constants'
 
-export const supabase = createClient(VITE_SUPABASE_URL, VITE_SUPABASE_KEY)
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)

@@ -5,9 +5,7 @@ create type user_role as enum ('user', 'admin');
 create table "users" (
   "id" uuid references auth."users" not null primary key,
   "email" text not null,
-  "role" user_role not null default 'user',
-  "avatar_url" text, -- avatar from social provider
-  "avatar_override" text -- avatar explicitly set by the user
+  "role" user_role not null default 'user'
 );
 alter table "users" enable row level security;
 
@@ -22,19 +20,16 @@ begin
   insert into public."users" (
     "id",
     "email",
-    "avatar_url",
     "role"
   ) values (
     new."id",
     new."email",
-    new."raw_user_meta_data"->>'avatar_url',
     'user'
   ) on conflict ("id") do update set
-    "email" = excluded."email",
-    "avatar_url" = excluded."avatar_url";
+    "email" = excluded."email";
   return new;
-end;
-$$ ;
+end
+$$;
 
 create trigger "on_auth_user_created"
 after insert or update on auth."users"
@@ -66,9 +61,18 @@ create policy "Admins have full control over users."
 on "users" for all using (is_admin());
 
 create policy "Users can view their own profiles."
-on "users" for select using (
-  auth.uid() = "id"
-);
+on "users" for select using (auth.uid() = "id");
+
+create view admin_users as
+select
+  u."id",
+  u."email",
+  u."role",
+  au."created_at",
+  au."last_sign_in_at"
+from "users" u
+left join auth."users" au on au."id" = u."id"
+where is_admin();
 
 -- storage setup
 
@@ -107,72 +111,5 @@ begin
 end
 $$;
 
-insert into storage.buckets (id, name)
-values ('avatars', 'avatars');
-
 create policy "Admins have full access to storage."
 on storage.objects for all using (is_admin());
-
-create policy "User avatars can be selected by their owners."
-on storage.objects for select using (
-  "bucket_id" = 'avatars'
-  and "name" like concat('users/', auth.uid()::text, '/%')
-);
-
-create policy "User avatars can be inserted by their owners or admins."
-on storage.objects for insert with check (
-  "bucket_id" = 'avatars'
-  and auth.uid() is not null
-  and "name" like concat('users/', auth.uid()::text, '/%')
-);
-
-create or replace function generate_user_avatar_url("user_id" uuid)
-  returns text
-  language plpgsql
-  security definer
-as $$
-declare
-  avatar_url text;
-  avatar_override text;
-begin
-  select
-    u."avatar_url",
-    u."avatar_override"
-  from "users" u
-  where u."id" = "user_id"::uuid
-  into avatar_url, avatar_override;
-
-  if avatar_url is null and avatar_override is null
-  then
-    return null; -- empty url
-  end if;
-
-  if avatar_url is not null and avatar_override is null
-  then
-    return avatar_url;
-  end if;
-
-  return generate_signed_file_url('avatars', avatar_override);
-end;
-$$;
-
-create view user_profile as
-select
-  u."id",
-  u."email",
-  u."role",
-  generate_user_avatar_url(u."id") as "avatar_url"
-from "users" as u
-where auth.uid() = u."id";
-
-create view admin_users as
-select
-  u."id",
-  u."email",
-  u."role",
-  generate_user_avatar_url(u."id") as "avatar",
-  au."created_at",
-  au."last_sign_in_at"
-from "users" u
-left join auth."users" au on au."id" = u."id"
-where is_admin();

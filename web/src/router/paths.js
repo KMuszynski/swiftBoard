@@ -1,6 +1,4 @@
 export const HOME = '/'
-export const SIGN_IN = '/login'
-export const SIGN_UP = '/sign-up'
 export const USER_PROFILE = '/profile'
 export const CONTACT = '/kontakt'
 export const ABOUT_US = '/o-nas'

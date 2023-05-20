@@ -1,7 +1,7 @@
 import {useCallback, useState} from 'react'
 
 import {Button, Divider, Flex, LightMode, Stack, Text, useToast} from '@chakra-ui/react'
-import {FaFacebook} from 'react-icons/fa'
+import {FaLinkedin} from 'react-icons/fa'
 import {FcGoogle} from 'react-icons/fc'
 
 import {supabase} from '../../api'
@@ -61,15 +61,15 @@ const SocialSignIn = ({isDisabled}) => {
             Google
           </Button>
           <Button
-            colorScheme="facebook"
-            leftIcon={<FaFacebook />}
+            colorScheme="linkedin"
+            leftIcon={<FaLinkedin />}
             size="sm"
             onClick={handleFacebook}
             isLoading={providerLoading === 'facebook'}
             isDisabled={isDisabled || !!providerLoading}
             boxShadow="lg"
           >
-            Facebook
+            LinkedIn
           </Button>
         </Stack>
       </LightMode>

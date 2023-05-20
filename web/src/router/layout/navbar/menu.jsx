@@ -4,16 +4,16 @@ import {Avatar, HStack, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Tag, 
 import {useSelector} from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
 
-import {supabase} from '../../../../api'
-import {selectProfile} from '../../../../auth/state'
-import useLoadingState from '../../../../common/hooks/use-loading-state'
-import {ADMIN_PANEL, USER_PROFILE} from '../../../../router/paths'
+import {supabase} from '../../../api'
+import {selectProfile} from '../../../auth/state'
+import useLoadingState from '../../../common/hooks/use-loading-state'
+import {ADMIN_PANEL, USER_PROFILE} from '../../../router/paths'
 
 const toasts = {
   onErrorToast: 'Wylogowywanie nie powiodło się',
 }
 
-const UserMenu = () => {
+const NavbarMenu = () => {
   const navigate = useNavigate()
   const user = useSelector(selectProfile)
 
@@ -32,7 +32,7 @@ const UserMenu = () => {
         <HStack spacing={4}>
           {user.role === 'admin' && <Tag colorScheme="red">admin</Tag>}
           <Text whiteSpace="nowrap">{user.email}</Text>
-          <Avatar size="sm" src={user.avatar_url || undefined} />
+          <Avatar size="sm" />
         </HStack>
       </MenuButton>
       <MenuList>
@@ -53,4 +53,4 @@ const UserMenu = () => {
   )
 }
 
-export default UserMenu
+export default NavbarMenu
