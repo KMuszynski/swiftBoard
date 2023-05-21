@@ -1,7 +1,9 @@
 import React from 'react'
 
 import {Box, Button, Flex, Input, Text} from '@chakra-ui/react'
+import {Link} from 'react-router-dom'
 
+import {ADMIN_PANEL} from '../../router/paths'
 import FileInput from './file-input'
 
 const CompanyCreator = () => {
@@ -52,7 +54,9 @@ const CompanyCreator = () => {
         <FileInput files={files} setFiles={setFiles} />
       </Box>
       <Flex justify="flex-end">
-        <Button onClick={handleSubmit}>Zapisz</Button>
+        <Button as={Link} to={ADMIN_PANEL} onClick={handleSubmit}>
+          Zapisz
+        </Button>
       </Flex>
     </Box>
   )
