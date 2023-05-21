@@ -11,7 +11,7 @@ export const fetchUser = createAsyncThunk('auth/fetchUser', async (user, {dispat
   dispatch(setUser(user))
   if (!user) return
 
-  const {data, error} = await supabase.from('users').select('*').single()
+  const {data, error} = await supabase.from('users').select('*').eq('id', user.id).single()
   if (error) throw error
 
   return data
