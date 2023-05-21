@@ -1,3 +1,5 @@
+-- migrate:up
+
 -- users table
 
 create type user_role as enum ('user', 'admin');
@@ -113,3 +115,5 @@ $$;
 
 create policy "Admins have full access to storage."
 on storage.objects for all using (is_admin());
+
+-- migrate:down
