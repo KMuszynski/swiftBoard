@@ -1,7 +1,7 @@
 import {Navigate, Route, Routes} from 'react-router-dom'
 
 import CompanyCreator from '../company/create'
-import AdminPanel from '../company/create/panel/admin-dashboard'
+import AdminPanel from '../company/create/panel'
 import Layout from './layout'
 import Home from './pages/home'
 import {ADMIN_PANEL, COMPANY_CREATOR, HOME} from './paths'
