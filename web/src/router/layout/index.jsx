@@ -14,7 +14,7 @@ const Layout = () => {
       {user ? (
         <>
           <Navbar />
-          <Box w="100%" p={4} minH="calc(100vh - 68px)">
+          <Box w="100%" minH="calc(100vh - 68px)">
             <Outlet />
           </Box>
         </>

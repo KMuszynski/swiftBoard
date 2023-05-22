@@ -9,4 +9,6 @@ export const COMPANY_CREATOR = '/tworzenie-konta-firmowego'
 
 // Admin paths
 export const ADMIN_PANEL = '/panel-administratora'
+export const ADMIN_PANEL_POSITIONS = ADMIN_PANEL + '/pozycje'
+export const ADMIN_PANEL_TASKS = ADMIN_PANEL + '/taski'
 export const ADMIN_USERS = ADMIN_PANEL + '/uzytkownicy'
