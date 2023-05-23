@@ -31,8 +31,6 @@ import ActionButton from './action-button'
 import ColumnSelector from './column-selector'
 import useColumnSelectorState from './column-selector/use-column-selector-state'
 import {defaultRowsPerPagePresets, renderPresetToRenderer} from './constants'
-import ExportToCSVButton from './export-csv'
-import FilterMenu from './filter-builder/menu'
 import TableHeader from './table-header'
 import {Column as DataTableColumn, Props} from './types'
 
@@ -49,8 +47,6 @@ const DataTable = <T extends AnyObject>({
   defaultSelectedColumns,
   tableState,
   actions,
-  filterFields,
-  table,
 }: Props<T>) => {
   const {
     descending,
@@ -165,7 +161,6 @@ const DataTable = <T extends AnyObject>({
     <>
       <Box borderWidth="1px" borderRadius="lg">
         <Flex px={2} py={1}>
-          {filterFields && <FilterMenu filterFields={filterFields} />}
           <Spacer />
           {customToolbarActions}
           {onAdd && (
@@ -183,14 +178,6 @@ const DataTable = <T extends AnyObject>({
             >
               <RepeatIcon />
             </IconButton>
-          )}
-          {table && (
-            <ExportToCSVButton<T>
-              table={table}
-              tableState={tableState}
-              selectedColumns={selectedColumnIDs}
-              columnByID={columnByID}
-            />
           )}
           <IconButton ml={2} aria-label="columns" variant="outline" onClick={onColumnSelectorOpen}>
             <Icon as={ColumnsIcon} />

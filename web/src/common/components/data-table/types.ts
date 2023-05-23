@@ -4,7 +4,6 @@ import {Accessor, Column as _Column} from 'react-table'
 
 import {AnyObject} from '@/utils/types'
 
-import {FilterField} from './filter-builder/types'
 import {TableState} from './use-table-state/types'
 
 export type Column<T extends AnyObject> = Omit<_Column<T>, 'accessor'> & {
@@ -41,9 +40,6 @@ export type Props<T extends AnyObject> = {
   tableState: TableState
 
   actions?: DataTableAction<T>[] // Displayed in the very last column of the table
-
-  filterFields?: FilterField[]
-  table?: string // used for csv exports
 }
 
 export type DataTableAction<T extends AnyObject> = {

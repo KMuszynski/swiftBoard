@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint src --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "gen_types": "supabase gen types typescript --project-id gvarhvvtbitlbuwueihk > ./src/api/database.types.ts"
   },
@@ -24,6 +24,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
+    "react-images-uploading": "^3.1.7",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.2",
     "react-table": "^7.8.0",

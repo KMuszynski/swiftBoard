@@ -14,4 +14,6 @@ export const isInputValid = (input) =>
   !!input.password &&
   isPasswordValid(input.password) &&
   !!input.repeatPassword &&
-  input.password === input.repeatPassword
+  input.password === input.repeatPassword &&
+  !!input.firstName &&
+  !!input.lastName
