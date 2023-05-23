@@ -1,9 +1,8 @@
 import React from 'react'
 
 import {Box, Button, Flex, Input, Text} from '@chakra-ui/react'
-import {Link} from 'react-router-dom'
 
-import {ADMIN_PANEL} from '../../router/paths'
+import {supabase} from '../../api'
 import FileInput from './file-input'
 
 const CompanyCreator = () => {
@@ -12,31 +11,18 @@ const CompanyCreator = () => {
   const handleSubmit = async () => {
     // Logic for handling the submission
 
-    // Downloading files
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i]
-      const fileURL = typeof file === 'string' ? file : URL.createObjectURL(file)
+    // Uploading files
+    try {
+      console.log(files)
+      for (const file of files) {
+        const filename = `${file.name}`
 
-      const link = document.createElement('a')
-      link.href = fileURL
-      link.download = typeof file === 'string' ? getFileNameFromURL(file) : file.name
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-
-      // Delay to allow the browser to release the object URL
-      await new Promise((resolve) => setTimeout(resolve, 100))
-
-      if (typeof file !== 'string') {
-        URL.revokeObjectURL(fileURL)
+        const {error} = await supabase.storage.from('documents').upload(filename, file, {upsert: true})
+        if (error) throw error
       }
+    } catch (err) {
+      console.log(err)
     }
-  }
-
-  // Helper function to extract the file name from a URL
-  const getFileNameFromURL = (url) => {
-    const parts = url.split('/')
-    return parts[parts.length - 1]
   }
 
   return (
@@ -54,9 +40,7 @@ const CompanyCreator = () => {
         <FileInput files={files} setFiles={setFiles} />
       </Box>
       <Flex justify="flex-end">
-        <Button as={Link} to={ADMIN_PANEL} onClick={handleSubmit}>
-          Zapisz
-        </Button>
+        <Button onClick={handleSubmit}>Zapisz</Button>
       </Flex>
     </Box>
   )
