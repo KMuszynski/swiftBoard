@@ -49,6 +49,17 @@ const SocialSignIn = ({isDisabled}) => {
       <LightMode>
         <Stack spacing={4}>
           <Button
+            colorScheme="linkedin"
+            leftIcon={<FaLinkedin />}
+            size="sm"
+            onClick={handleFacebook}
+            isLoading={providerLoading === 'facebook'}
+            isDisabled={isDisabled || !!providerLoading}
+            boxShadow="lg"
+          >
+            LinkedIn
+          </Button>
+          <Button
             leftIcon={<FcGoogle />}
             size="sm"
             onClick={handleGoogle}
@@ -59,17 +70,6 @@ const SocialSignIn = ({isDisabled}) => {
             color="gray.900"
           >
             Google
-          </Button>
-          <Button
-            colorScheme="linkedin"
-            leftIcon={<FaLinkedin />}
-            size="sm"
-            onClick={handleFacebook}
-            isLoading={providerLoading === 'facebook'}
-            isDisabled={isDisabled || !!providerLoading}
-            boxShadow="lg"
-          >
-            LinkedIn
           </Button>
         </Stack>
       </LightMode>
