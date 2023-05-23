@@ -1,17 +1,27 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import type {PayloadAction} from '@reduxjs/toolkit'
+import type {User} from '@supabase/supabase-js'
 
-import {supabase} from '../api'
-import {toast} from '../theme'
+import {supabase} from '@/api'
+import {UserProfile} from '@/api/models'
+import {RootState} from '@/store'
+import {toast} from '@/theme'
 
-const initialState = {
+export interface State {
+  profile?: UserProfile
+  profileLoading: boolean
+  user?: User
+}
+
+const initialState: State = {
   profileLoading: true,
 }
 
-export const fetchUser = createAsyncThunk('auth/fetchUser', async (user, {dispatch}) => {
+export const fetchUser = createAsyncThunk('auth/fetchUser', async (user: User | undefined, {dispatch}) => {
   dispatch(setUser(user))
   if (!user) return
 
-  const {data, error} = await supabase.from('users').select('*').eq('id', user.id).single()
+  const {data, error} = await supabase.from('user_profile').select('*').single()
   if (error) throw error
 
   return data
@@ -21,10 +31,10 @@ export const authSlice = createSlice({
   initialState,
   name: 'auth',
   reducers: {
-    setProfileLoading: (state, action) => {
+    setProfileLoading: (state, action: PayloadAction<boolean>) => {
       state.profileLoading = action.payload
     },
-    setUser: (state, action) => {
+    setUser: (state, action: PayloadAction<User | undefined>) => {
       state.user = action.payload
     },
   },
@@ -48,9 +58,9 @@ export const authSlice = createSlice({
 
 export const {setProfileLoading, setUser} = authSlice.actions
 
-export const selectUser = (state) => state.auth.user
-export const selectProfileLoading = (state) => state.auth.profileLoading
-export const selectProfile = (state) => state.auth.profile
-export const selectRole = (state) => state.auth.profile?.role ?? 'user'
+export const selectUser = (state: RootState) => state.auth.user
+export const selectProfileLoading = (state: RootState) => state.auth.profileLoading
+export const selectProfile = (state: RootState) => state.auth.profile
+export const selectRole = (state: RootState) => state.auth.profile?.role ?? 'user'
 
 export default authSlice.reducer

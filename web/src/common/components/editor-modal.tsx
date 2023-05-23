@@ -1,3 +1,5 @@
+import React from 'react'
+
 import {
   Button,
   Flex,
@@ -8,9 +10,17 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  ModalProps,
 } from '@chakra-ui/react'
 
-const EditorModal = ({children, loading, title, onSubmit, onClose, ...rest}) => (
+type Props = ModalProps & {
+  children: React.ReactNode
+  loading?: boolean
+  title?: string
+  onSubmit: () => void
+}
+
+const EditorModal = ({children, loading, title, onSubmit, onClose, ...rest}: Props) => (
   <Modal onClose={onClose} size="xl" {...rest}>
     <ModalOverlay />
     <ModalContent>

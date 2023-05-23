@@ -11,7 +11,7 @@ import Router from './router'
 import {store} from './store'
 import theme, {ToastContainer} from './theme'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
