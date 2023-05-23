@@ -7,13 +7,14 @@ create type user_role as enum ('user', 'admin');
 create table "users" (
   "id" uuid references auth."users" not null primary key,
   "email" text not null,
-  "role" user_role not null default 'user'
+  "role" user_role not null default 'user',
+  "full_name" text not null,
 );
-alter table "users" enable row level security;
+-- alter table "users" enable row level security;
 
 create index "users_email" on "users" ("email");
 
-create function handle_new_user()
+create or replace function handle_new_user()
   returns trigger
   language plpgsql
   security definer
@@ -22,13 +23,19 @@ begin
   insert into public."users" (
     "id",
     "email",
+    "avatar_url",
+    "full_name",
     "role"
   ) values (
     new."id",
     new."email",
+    new."raw_user_meta_data"->>'avatar_url',
+    new."raw_user_meta_data"->>'full_name',
     'user'
   ) on conflict ("id") do update set
-    "email" = excluded."email";
+    "email" = excluded."email",
+    "avatar_url" = excluded."avatar_url",
+    "full_name" = excluded."full_name";
   return new;
 end
 $$;
@@ -59,22 +66,22 @@ as $$
   where "id" = auth.uid()
 $$;
 
-create policy "Admins have full control over users."
-on "users" for all using (is_admin());
+-- create policy "Admins have full control over users."
+-- on "users" for all using (is_admin());
 
-create policy "Users can view their own profiles."
-on "users" for select using (auth.uid() = "id");
+-- create policy "Users can view their own profiles."
+-- on "users" for select using (auth.uid() = "id");
 
-create view admin_users as
-select
-  u."id",
-  u."email",
-  u."role",
-  au."created_at",
-  au."last_sign_in_at"
-from "users" u
-left join auth."users" au on au."id" = u."id"
-where is_admin();
+-- create view admin_users as
+-- select
+--   u."id",
+--   u."email",
+--   u."role",
+--   au."created_at",
+--   au."last_sign_in_at"
+-- from "users" u
+-- left join auth."users" au on au."id" = u."id"
+-- where is_admin();
 
 -- storage setup
 
