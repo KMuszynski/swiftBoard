@@ -9,7 +9,7 @@ const RegisterCompanyPage = () => {
       <Box bg="gray.800" p={4} rounded="xl" boxShadow="glowBlue" w="lg">
         <CompanyEditorForm item={null} />
       </Box>
-      <Text>Więcej informacji dodasz już w panelu zarządzania firmą!</Text>
+      <Text>Więcej informacji dodasz w panelu zarządzania firmą!</Text>
     </Stack>
   )
 }

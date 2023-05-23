@@ -1,6 +1,7 @@
 import {useCallback, useState} from 'react'
 
 import {Button, Divider, Flex, LightMode, Stack, Text, useToast} from '@chakra-ui/react'
+import {Provider} from '@supabase/supabase-js'
 import {FaLinkedin} from 'react-icons/fa'
 import {FcGoogle} from 'react-icons/fc'
 
@@ -9,10 +10,10 @@ import {WEB_BASE_URL} from '../../constants'
 
 const SocialSignIn = ({isDisabled}) => {
   const toast = useToast()
-  const [providerLoading, setProviderLoading] = useState(null)
+  const [providerLoading, setProviderLoading] = useState<Provider | null>(null)
 
   const handleProvider = useCallback(
-    async (provider) => {
+    async (provider: Provider) => {
       setProviderLoading(provider)
       try {
         const {error} = await supabase.auth.signInWithOAuth({
@@ -21,11 +22,11 @@ const SocialSignIn = ({isDisabled}) => {
             redirectTo: WEB_BASE_URL,
           },
         })
-        if (error) throw new Error(error.message)
+        if (error) throw error
       } catch (e) {
         setProviderLoading(null)
         toast({
-          description: e.toString(),
+          description: (e as Error).toString(),
           isClosable: true,
           status: 'error',
           title: 'Logowanie nie powiodło się',
@@ -35,7 +36,7 @@ const SocialSignIn = ({isDisabled}) => {
     [toast]
   )
   const handleGoogle = useCallback(() => handleProvider('google'), [handleProvider])
-  const handleFacebook = useCallback(() => handleProvider('facebook'), [handleProvider])
+  const handleLinkedIn = useCallback(() => handleProvider('linkedin'), [handleProvider])
 
   return (
     <>
@@ -52,7 +53,7 @@ const SocialSignIn = ({isDisabled}) => {
             colorScheme="linkedin"
             leftIcon={<FaLinkedin />}
             size="sm"
-            onClick={handleFacebook}
+            onClick={handleLinkedIn}
             isLoading={providerLoading === 'facebook'}
             isDisabled={isDisabled || !!providerLoading}
             boxShadow="lg"
