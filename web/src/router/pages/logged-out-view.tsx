@@ -7,7 +7,7 @@ import wave from '/wave.svg'
 
 const LoggedOutView = () => (
   <Flex h="100vh" position="relative" overflow="hidden">
-    <Image src={wave} w="100%" position="absolute" bottom="-76px" opacity={0.4} pointerEvents="none" />
+    <Image src={wave} w="100%" position="absolute" bottom="-76px" opacity={0.3} pointerEvents="none" />
     <Image
       src={gradientBg}
       pos="absolute"

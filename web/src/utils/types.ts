@@ -5,3 +5,8 @@ export type CommonModalProps = {
   onClose: () => void
   onComplete?: () => void
 }
+
+export type SelectOption<T = string> = {
+  label: string
+  value: T
+}
