@@ -10,7 +10,7 @@ const EmployeePanel = () => {
       <Flex flex={1}>
         <EmployeeSidebar />
       </Flex>
-      <Flex flex={5}>
+      <Flex flex={4}>
         <TaskViewer />
       </Flex>
       <Flex flex={2}>
