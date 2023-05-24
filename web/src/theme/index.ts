@@ -11,6 +11,21 @@ const theme = extendTheme({
         bg: 'gray.900',
         color: 'white',
       },
+      '::-webkit-scrollbar': {
+        cursor: 'auto',
+        width: '0.5rem',
+      },
+      '::-webkit-scrollbar-thumb': {
+        cursor: 'pointer !important',
+        '&:hover': {
+          bg: 'blue.700',
+        },
+        bg: 'gray.600',
+        borderRadius: 'full',
+      },
+      '::-webkit-scrollbar-track': {
+        bg: 'blackAlpha.600',
+      },
     },
   },
   shadows: {

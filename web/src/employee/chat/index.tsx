@@ -1,46 +1,44 @@
 import React from 'react'
 
 import {AddIcon} from '@chakra-ui/icons'
-import {Avatar, Box, Flex, HStack, Icon, IconButton, Text, Textarea, Tooltip} from '@chakra-ui/react'
+import {Box, Flex, HStack, IconButton, Textarea, Tooltip} from '@chakra-ui/react'
 import {IoSend} from 'react-icons/io5'
-import {SiOpenai} from 'react-icons/si'
 import Select, {SingleValue} from 'react-select'
 
-import {selectProfile} from '@/auth/state'
-import {useAppSelector} from '@/store'
+import {useLoadingState} from '@/common/hooks'
+import {OPENAI_API_KEY} from '@/constants'
 import {selectStyles} from '@/theme/components/select'
 import {SelectOption} from '@/utils/types'
 
-type ChatMessage = {
-  role: 'user' | 'system' | 'assistant'
-  content: string
-}
+import {ChatMessage} from '../types'
+import {LoadingMessage, Message} from './message'
 
 const startMessages: ChatMessage[] = [
   {role: 'system', content: 'You are a helpful assistant.'},
-  {role: 'user', content: 'Who won the world series in 2020?'},
-  {
-    role: 'assistant',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.',
-  },
-  {role: 'user', content: 'Where was it played?'},
-  {role: 'system', content: 'You are a helpful assistant.'},
-  {role: 'user', content: 'Who won the world series in 2020?'},
-  {
-    role: 'assistant',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.',
-  },
-  {role: 'user', content: 'Where was it played?'},
-  {role: 'system', content: 'You are a helpful assistant.'},
-  {role: 'user', content: 'Who won the world series in 2020?'},
-  {
-    role: 'assistant',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.',
-  },
-  {role: 'user', content: 'Where was it played?'},
+  {role: 'assistant', content: 'Hello! How can I assist you today?'},
+  // {role: 'user', content: 'Who won the world series in 2020?'},
+  // {
+  //   role: 'assistant',
+  //   content:
+  //     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.',
+  // },
+  // {role: 'user', content: 'Where was it played?'},
+  // {role: 'system', content: 'You are a helpful assistant.'},
+  // {role: 'user', content: 'Who won the world series in 2020?'},
+  // {
+  //   role: 'assistant',
+  //   content:
+  //     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.',
+  // },
+  // {role: 'user', content: 'Where was it played?'},
+  // {role: 'system', content: 'You are a helpful assistant.'},
+  // {role: 'user', content: 'Who won the world series in 2020?'},
+  // {
+  //   role: 'assistant',
+  //   content:
+  //     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.',
+  // },
+  // {role: 'user', content: 'Where was it played?'},
 ]
 
 const chats = [
@@ -62,25 +60,6 @@ const chats = [
   },
 ]
 
-const Message = ({msg}: {msg: ChatMessage}) => {
-  const user = useAppSelector(selectProfile)
-  return msg.role === 'user' ? (
-    <Flex w="100%" justify="flex-end" align="flex-end" gap={4}>
-      <Text bg="blue.900" px={4} py={2} rounded="10px 10px 0 10px">
-        {msg.content}
-      </Text>
-      <Avatar src={user?.avatar_url || undefined} size="sm" />
-    </Flex>
-  ) : (
-    <Flex w="100%" align="flex-end" gap={4}>
-      <Icon as={SiOpenai} boxSize={8} />
-      <Text bg="gray.900" px={4} py={2} rounded="10px 10px 10px 0">
-        {msg.content}
-      </Text>
-    </Flex>
-  )
-}
-
 const Chat = () => {
   const textareaRef = React.useRef<HTMLTextAreaElement>(null)
 
@@ -88,11 +67,15 @@ const Chat = () => {
   const reversed = React.useMemo(() => [...messages].reverse(), [messages])
 
   const [input, setInput] = React.useState('')
-  const handleInputChange = React.useCallback(({target: {value}}: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(value)
-    if (textareaRef.current)
-      textareaRef.current.style.height = !value ? 'auto' : `${textareaRef.current?.scrollHeight}px`
-  }, [])
+
+  // resize textare on input change
+  React.useEffect(() => {
+    const taRef = textareaRef.current
+    if (taRef) {
+      taRef.style.height = '72px'
+      taRef.style.height = `${taRef?.scrollHeight + 2}px`
+    }
+  }, [input])
 
   const [selectedChat, setSelectedChat] = React.useState('')
   React.useEffect(() => {
@@ -103,15 +86,57 @@ const Chat = () => {
     []
   )
 
-  const handleSend = React.useCallback(() => {
-    if (!input) return
-    setMessages((prev) => [
-      ...prev,
-      {role: 'user', content: input},
-      {role: 'assistant', content: 'Random response'},
-    ])
-    setInput('')
-  }, [input])
+  const [handleSend, loading] = useLoadingState(
+    React.useCallback(async () => {
+      // if input is only whitespace - clear it and return
+      if (!/\S/.test(input)) {
+        setInput('')
+        return
+      }
+
+      if (!OPENAI_API_KEY) throw new Error('No OpenAI API Key')
+
+      const newMessages: ChatMessage[] = [...messages, {role: 'user', content: input}]
+      setMessages(newMessages)
+      setInput('')
+
+      const response = await fetch('http://localhost:3000/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: newMessages,
+          max_tokens: 50,
+        }),
+      })
+      const data = await response.json()
+      console.log(data)
+      if (!data?.choices.length) throw new Error('Invalid chat response')
+      let msg = data?.choices[0]?.message?.content
+      if (!msg) throw new Error('Invalid chat response')
+
+      const finishReason = data?.choices[0]?.finish_reason
+      if (finishReason === 'length') msg += '...'
+
+      setMessages((prev) => [...prev, {role: 'assistant', content: msg}])
+    }, [input]),
+    {
+      onErrorToast: 'Wysyłanie wiadomości nie powiodło się',
+    }
+  )
+
+  const handleEnter = React.useCallback(
+    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault()
+        handleSend()
+      }
+    },
+    [handleSend]
+  )
 
   const chatOptions: SelectOption[] = React.useMemo(
     () => chats.map((c) => ({value: c.id, label: c.name})),
@@ -135,6 +160,7 @@ const Chat = () => {
         </Tooltip>
       </HStack>
       <Flex px={4} h="100%" direction="column-reverse" gap={4} overflowY="auto">
+        {loading && <LoadingMessage />}
         {reversed.map((m, i) => (
           <Message key={i} msg={m} />
         ))}
@@ -144,7 +170,8 @@ const Chat = () => {
           ref={textareaRef}
           value={input}
           placeholder="Zadaj pytanie..."
-          onChange={handleInputChange}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleEnter}
           resize="none"
           minH="72px"
           maxH="250px"
@@ -159,7 +186,7 @@ const Chat = () => {
           bottom={4}
           zIndex="tooltip"
           onClick={handleSend}
-          isDisabled={!input}
+          isDisabled={!input || loading}
         />
       </Flex>
     </Flex>
