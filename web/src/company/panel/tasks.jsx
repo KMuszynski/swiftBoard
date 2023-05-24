@@ -1,4 +1,6 @@
-import {DeleteIcon, EditIcon, HamburgerIcon, PhoneIcon, SearchIcon, ViewIcon} from '@chakra-ui/icons'
+import {useState} from 'react'
+
+import {AddIcon, DeleteIcon, EditIcon, HamburgerIcon, SearchIcon} from '@chakra-ui/icons'
 import {
   Accordion,
   AccordionButton,
@@ -7,15 +9,12 @@ import {
   AccordionPanel,
   Box,
   Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
   Center,
   Divider,
   Flex,
   HStack,
   Heading,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -29,7 +28,7 @@ import {
 } from '@chakra-ui/react'
 
 const Tasks = () => {
-  const tasks = [
+  const data = [
     {
       name: 'Wprowadzenie do firmy',
       points: 20,
@@ -74,17 +73,43 @@ const Tasks = () => {
     },
   ]
 
+  const [filter, setFilter] = useState('')
+  const [tasks, setTasks] = useState(data)
+
+  const handleFilterChange = (event) => setFilter(event.target.value)
+
+  const tasksFiltered = tasks.filter((task) => {
+    return task.name.toLowerCase().includes(filter.toLowerCase())
+  })
+
+  const handleDelete = (name) => {
+    console.log(name)
+    setTasks(
+      tasks.filter((task) => {
+        return task.name !== name
+      })
+    )
+  }
   return (
     <Center>
       <Stack spacing={5} w="3xl" pt="8">
-        <InputGroup size="lg" mb={4} rounded="3xl">
-          <InputLeftElement pointerEvents="none">
-            <SearchIcon color="gray.300" />
-          </InputLeftElement>
-          <Input type="text" variant="filled" placeholder="Wyszukaj zadanie" />
-        </InputGroup>
-        {tasks &&
-          tasks.map((task, id) => (
+        <Flex>
+          <InputGroup size="lg" mb={4} rounded="3xl">
+            <InputLeftElement pointerEvents="none">
+              <SearchIcon color="gray.300" />
+            </InputLeftElement>
+            <Input
+              type="text"
+              variant="filled"
+              placeholder="Wyszukaj zadanie"
+              value={filter}
+              onChange={handleFilterChange}
+            />
+          </InputGroup>
+          <IconButton aria-label="Add task" variant="ghost" icon={<AddIcon />} size="lg" ml={4} />
+        </Flex>
+        {tasksFiltered &&
+          tasksFiltered.map((task, id) => (
             <Box key={id} bg="gray.700" rounded="3xl" boxShadow="2xl">
               <Accordion allowToggle m={1}>
                 <AccordionItem border="none">
@@ -100,26 +125,16 @@ const Tasks = () => {
                       <AccordionIcon ml="5" />
                     </AccordionButton>
                     <Menu>
-                      <MenuButton
-                        as={IconButton}
-                        aria-label="Options"
-                        icon={<HamburgerIcon />}
-                        variant="outline"
-                      />
+                      <MenuButton as={IconButton} icon={<HamburgerIcon />} variant="ghost" size="lg" mr={3} />
                       <MenuList>
-                        <MenuItem icon={<DeleteIcon />} command="⌘⇧N">
-                          Open Closed Tab
-                        </MenuItem>
-                        <MenuItem icon={<EditIcon />} command="⌘O">
-                          Open File...
+                        <MenuItem icon={<EditIcon />}>Edytuj zadanie</MenuItem>
+                        <MenuItem icon={<DeleteIcon />} onClick={() => handleDelete(task.name)}>
+                          Usuń zadanie
                         </MenuItem>
                       </MenuList>
                     </Menu>
-                    {/* <Button variant="ghost" leftIcon={<EditIcon />} size="lg" mr={3}>
-                      Edytuj
-                    </Button> */}
                   </Flex>
-                  <AccordionPanel pb={1}>{task.description}</AccordionPanel>
+                  <AccordionPanel pb={2}>{task.description}</AccordionPanel>
                 </AccordionItem>
               </Accordion>
             </Box>
