@@ -1,4 +1,4 @@
-import {EditIcon, ViewIcon} from '@chakra-ui/icons'
+import {DeleteIcon, EditIcon, HamburgerIcon, PhoneIcon, SearchIcon, ViewIcon} from '@chakra-ui/icons'
 import {
   Accordion,
   AccordionButton,
@@ -16,13 +16,20 @@ import {
   Flex,
   HStack,
   Heading,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   SimpleGrid,
   Stack,
   Text,
 } from '@chakra-ui/react'
 
 const Tasks = () => {
-  const items = [
+  const tasks = [
     {
       name: 'Wprowadzenie do firmy',
       points: 20,
@@ -69,9 +76,15 @@ const Tasks = () => {
 
   return (
     <Center>
-      <Stack spacing={5} w="3xl" pt="12">
-        {items &&
-          items.map((item, id) => (
+      <Stack spacing={5} w="3xl" pt="8">
+        <InputGroup size="lg" mb={4} rounded="3xl">
+          <InputLeftElement pointerEvents="none">
+            <SearchIcon color="gray.300" />
+          </InputLeftElement>
+          <Input type="text" variant="filled" placeholder="Wyszukaj zadanie" />
+        </InputGroup>
+        {tasks &&
+          tasks.map((task, id) => (
             <Box key={id} bg="gray.700" rounded="3xl" boxShadow="2xl">
               <Accordion allowToggle m={1}>
                 <AccordionItem border="none">
@@ -79,18 +92,34 @@ const Tasks = () => {
                     <AccordionButton mr="3">
                       <Box as="span" flex="1" textAlign="left">
                         <Heading as="h3" size="md">
-                          {item.name}
+                          {task.name}
                         </Heading>
                         <Divider mb={2} mt={4} />
-                        <Text>{item.points} punktów</Text>
+                        <Text>{task.points} punktów</Text>
                       </Box>
                       <AccordionIcon ml="5" />
                     </AccordionButton>
-                    <Button variant="ghost" leftIcon={<EditIcon />} size="lg">
+                    <Menu>
+                      <MenuButton
+                        as={IconButton}
+                        aria-label="Options"
+                        icon={<HamburgerIcon />}
+                        variant="outline"
+                      />
+                      <MenuList>
+                        <MenuItem icon={<DeleteIcon />} command="⌘⇧N">
+                          Open Closed Tab
+                        </MenuItem>
+                        <MenuItem icon={<EditIcon />} command="⌘O">
+                          Open File...
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                    {/* <Button variant="ghost" leftIcon={<EditIcon />} size="lg" mr={3}>
                       Edytuj
-                    </Button>
+                    </Button> */}
                   </Flex>
-                  <AccordionPanel pb={1}>{item.description}</AccordionPanel>
+                  <AccordionPanel pb={1}>{task.description}</AccordionPanel>
                 </AccordionItem>
               </Accordion>
             </Box>
