@@ -15,30 +15,7 @@ import {LoadingMessage, Message} from './message'
 
 const startMessages: ChatMessage[] = [
   {role: 'system', content: 'You are a helpful assistant.'},
-  {role: 'assistant', content: 'Hello! How can I assist you today?'},
-  // {role: 'user', content: 'Who won the world series in 2020?'},
-  // {
-  //   role: 'assistant',
-  //   content:
-  //     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.',
-  // },
-  // {role: 'user', content: 'Where was it played?'},
-  // {role: 'system', content: 'You are a helpful assistant.'},
-  // {role: 'user', content: 'Who won the world series in 2020?'},
-  // {
-  //   role: 'assistant',
-  //   content:
-  //     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.',
-  // },
-  // {role: 'user', content: 'Where was it played?'},
-  // {role: 'system', content: 'You are a helpful assistant.'},
-  // {role: 'user', content: 'Who won the world series in 2020?'},
-  // {
-  //   role: 'assistant',
-  //   content:
-  //     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat nulla et vitae praesentium, ab perferendis ipsum similique dicta a aliquam sed nesciunt sequi veniam excepturi dignissimos facilis! Nihil corporis debitis, sint temporibus nostrum itaque quae recusandae praesentium obcaecati inventore exercitationem consequatur repudiandae accusantium totam ex! Facilis enim explicabo minima iure.',
-  // },
-  // {role: 'user', content: 'Where was it played?'},
+  {role: 'assistant', content: 'Witaj w SwiftBoard! Jak mogę ci dzisiaj pomóc?'},
 ]
 
 const chats = [
@@ -113,7 +90,7 @@ const Chat = () => {
         }),
       })
       const data = await response.json()
-      console.log(data)
+
       if (!data?.choices.length) throw new Error('Invalid chat response')
       let msg = data?.choices[0]?.message?.content
       if (!msg) throw new Error('Invalid chat response')

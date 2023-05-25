@@ -1,46 +1,44 @@
-import {Button, Checkbox, HStack, Spacer, Stack, Text} from '@chakra-ui/react'
+import {Button, Checkbox, HStack, Skeleton, Spacer, Stack, Text} from '@chakra-ui/react'
+import {Link, generatePath} from 'react-router-dom'
 
-const tasks = [
-  {
-    id: '1',
-    name: 'Task 1',
-    status: 'assigned',
-    points: 2,
-  },
-  {
-    id: '2',
-    name: 'Task 2',
-    status: 'failed',
-    points: 5,
-  },
-  {
-    id: '3',
-    name: 'Task 3',
-    status: 'passed',
-    points: 12,
-  },
-  {
-    id: '4',
-    name: 'Task 4',
-    status: 'assigned',
-    points: 8,
-  },
-]
+import {EmployeeTask} from '@/api/models'
+import {useListQuery} from '@/common/hooks'
+import {EMPLOYEE_TASK} from '@/router/paths'
 
 const TasksList = () => {
+  const [tasks, loading] = useListQuery<EmployeeTask>({
+    from: 'employee_tasks',
+  })
+
   return (
     <Stack>
       <Text fontWeight="bold">Twoje zadania</Text>
-      {tasks.map((t, i) => (
-        <Button key={i} p={2} bg="gray.800">
-          <HStack w="100%">
-            <Checkbox isChecked={t.status === 'passed'} />
-            <Text>{t.name}</Text>
-            <Spacer />
-            <Text>{t.points}</Text>
-          </HStack>
-        </Button>
-      ))}
+      {loading ? (
+        Array.from(Array(5), (_, i) => <Skeleton key={i} h="40px" rounded="md" />)
+      ) : !tasks.length ? (
+        <Text>Nie masz żadnych zadań!</Text>
+      ) : (
+        tasks.map((t, i) => (
+          <Button
+            key={i}
+            as={Link}
+            to={generatePath(EMPLOYEE_TASK, {id: t.id})}
+            p={2}
+            bg="gray.800"
+            fontWeight={400}
+            whiteSpace="normal"
+            h="unset"
+            minH="40px"
+          >
+            <HStack w="100%" textAlign="left" spacing={4}>
+              <Checkbox isChecked={t.status === 'completed'} />
+              <Text>{t.name}</Text>
+              <Spacer />
+              <Text>{t.points}</Text>
+            </HStack>
+          </Button>
+        ))
+      )}
     </Stack>
   )
 }

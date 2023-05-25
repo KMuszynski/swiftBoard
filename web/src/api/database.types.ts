@@ -117,6 +117,8 @@ export interface Database {
           description: string
           document: string | null
           id: string
+          max_points: number
+          min_points: number
           name: string
           number_of_questions: number
           questions: string[]
@@ -128,6 +130,8 @@ export interface Database {
           description: string
           document?: string | null
           id?: string
+          max_points: number
+          min_points?: number
           name: string
           number_of_questions?: number
           questions?: string[]
@@ -139,6 +143,8 @@ export interface Database {
           description?: string
           document?: string | null
           id?: string
+          max_points?: number
+          min_points?: number
           name?: string
           number_of_questions?: number
           questions?: string[]
@@ -148,8 +154,8 @@ export interface Database {
       user_tasks: {
         Row: {
           assigned_at: string
+          completed_at: string | null
           deadline: string | null
-          points: number
           raport: string | null
           status: Database["public"]["Enums"]["task_status"]
           task: string
@@ -157,8 +163,8 @@ export interface Database {
         }
         Insert: {
           assigned_at?: string
+          completed_at?: string | null
           deadline?: string | null
-          points?: number
           raport?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           task: string
@@ -166,8 +172,8 @@ export interface Database {
         }
         Update: {
           assigned_at?: string
+          completed_at?: string | null
           deadline?: string | null
-          points?: number
           raport?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           task?: string
@@ -235,6 +241,21 @@ export interface Database {
           name: string | null
         }
       }
+      employee_tasks: {
+        Row: {
+          assigned_at: string | null
+          company: string | null
+          deadline: string | null
+          description: string | null
+          document: string | null
+          id: string | null
+          name: string | null
+          points: number | null
+          raport: string | null
+          status: Database["public"]["Enums"]["task_status"] | null
+          user: string | null
+        }
+      }
       user_profile: {
         Row: {
           avatar_url: string | null
@@ -268,6 +289,13 @@ export interface Database {
           env: string
         }
         Returns: string
+      }
+      get_remaining_task_points: {
+        Args: {
+          task_id: string
+          user_id: string
+        }
+        Returns: number
       }
       get_secret: {
         Args: {
@@ -307,7 +335,7 @@ export interface Database {
     }
     Enums: {
       company_user_role: "admin" | "employee"
-      task_status: "assigned" | "passed" | "failed"
+      task_status: "assigned" | "completed" | "failed"
       user_role: "user" | "admin"
     }
     CompositeTypes: {

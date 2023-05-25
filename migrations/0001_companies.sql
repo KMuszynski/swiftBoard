@@ -36,33 +36,6 @@ create table "company_users" (
   "points" int not null default 0
 );
 
-create table "tasks" (
-  "id" uuid primary key default uuid_generate_v4(),
-  "created_at" timestamptz not null default now(),
-  "updated_at" timestamptz not null default now(),
-
-  "company" uuid not null references "companies"("id"),
-  "name" text not null,
-  "description" text not null,
-  "document" uuid references "company_documents"("id"),
-  "number_of_questions" int not null default 0,
-  "questions" text[] not null default '{}'::text[]
-);
-
-create type task_status as enum ('assigned', 'passed', 'failed');
-
-create table "user_tasks" (
-  "task" uuid not null references "tasks"("id"),
-  "user" uuid not null references "users"("id"),
-  primary key ("task", "user"),
-
-  "assigned_at" timestamptz not null default now(),
-  "deadline" timestamptz, -- null means no deadline
-  "points" int not null default 0,
-  "status" task_status not null default 'assigned',
-  "raport" text
-);
-
 create or replace function "upsert_company"(
   "name" text,
   "description" text,

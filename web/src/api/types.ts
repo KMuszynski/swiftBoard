@@ -9,7 +9,7 @@ export type FilterBuilderFn<T extends AnyObject> = (
 ) => PostgrestFilterBuilder<Database['public'], T, T[]>
 
 export type SupabaseQueryParams<T extends AnyObject> = {
-  from: string // database table
+  from: keyof Database['public']['Tables'] | keyof Database['public']['Views']
   fields?: string // comma separated list of columns, all fields '*' by default
   order?: Extract<keyof T, string>[]
   descending?: boolean
