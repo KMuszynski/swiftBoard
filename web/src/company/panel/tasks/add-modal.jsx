@@ -21,7 +21,9 @@ import {supabase} from '@/api'
 import {selectProfile} from '@/auth/state'
 import {useAppSelector} from '@/store'
 
-const AddTaskModal = ({isOpen, onOpen, onClose}) => {
+import fetchTasks from './fetching-tasks'
+
+const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
   const initialRef = React.useRef(null)
   const toast = useToast()
 
@@ -31,7 +33,6 @@ const AddTaskModal = ({isOpen, onOpen, onClose}) => {
 
   const user = useAppSelector(selectProfile)
   const company = user.company
-  const pointsBigInt = BigInt(points)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -47,9 +48,7 @@ const AddTaskModal = ({isOpen, onOpen, onClose}) => {
       return
     }
 
-    const {data, error} = await supabase
-      .from('tasks')
-      .insert([{company, name, description, points: {pointsBigInt}}])
+    const {data, error} = await supabase.from('tasks').insert([{company, name, description, points}])
 
     if (error) {
       console.log(error)
@@ -60,9 +59,7 @@ const AddTaskModal = ({isOpen, onOpen, onClose}) => {
         duration: 5000,
         isClosable: true,
       })
-    }
-    if (data) {
-      console.log(data)
+    } else {
       toast({
         title: 'Task dodany.',
         description: 'Nowy task został pomyślnie dodany.',
@@ -70,6 +67,7 @@ const AddTaskModal = ({isOpen, onOpen, onClose}) => {
         duration: 5000,
         isClosable: true,
       })
+      fetchTasks(setTasks)
       onClose()
     }
   }
@@ -105,6 +103,7 @@ const AddTaskModal = ({isOpen, onOpen, onClose}) => {
               <FormLabel>Liczba punktów</FormLabel>
               <Input
                 placeholder="liczba punktów"
+                type="number"
                 value={points}
                 onChange={(e) => setPoints(e.target.value)}
               />
