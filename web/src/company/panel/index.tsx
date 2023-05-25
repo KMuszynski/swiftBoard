@@ -1,4 +1,4 @@
-import {Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs} from '@chakra-ui/react'
+import {Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text} from '@chakra-ui/react'
 
 import Documents from './documents'
 import Employees from './employees'
@@ -12,9 +12,11 @@ const CompanyPanel = () => {
       <TabList>
         <Tab>Informacje</Tab>
         <Tab>Pracownicy</Tab>
-        <Tab>Taski</Tab>
-        <Tab>Pozycje</Tab>
+        <Tab>Zadania</Tab>
+        <Tab>Stanowiska</Tab>
         <Tab>Dokumenty</Tab>
+        <Tab>Ankiety</Tab>
+        <Tab>Kalendarz</Tab>
       </TabList>
       <TabIndicator mt="-1.5px" height="2px" bg="blue.500" borderRadius="1px" />
       <TabPanels>
@@ -32,6 +34,12 @@ const CompanyPanel = () => {
         </TabPanel>
         <TabPanel>
           <Documents />
+        </TabPanel>
+        <TabPanel>
+          <Text>Ankiety</Text>
+        </TabPanel>
+        <TabPanel>
+          <Text>Kalendarz</Text>
         </TabPanel>
       </TabPanels>
     </Tabs>

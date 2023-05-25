@@ -14,8 +14,7 @@ const Layout = () => {
     <Box>
       {user ? (
         <>
-          {/* TODO: separate layout for employee panel */}
-          {user.company_role !== 'employee' && <Navbar />}
+          <Navbar />
           <Box
             w="100%"
             minH={user.company_role !== 'employee' ? 'calc(100vh - 68px)' : '100vh'}

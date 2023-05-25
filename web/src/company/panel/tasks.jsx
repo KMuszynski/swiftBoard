@@ -90,6 +90,7 @@ const Tasks = () => {
       })
     )
   }
+
   return (
     <Center>
       <Stack spacing={5} w="3xl" pt="8">

@@ -42,6 +42,7 @@ const EmployeeEditorModal = ({
       isOpen={open}
       onClose={onClose}
       onSubmit={handleUpsert}
+      loading={loading}
     >
       <Stack>
         <FormControl isDisabled={loading || !!item}>
