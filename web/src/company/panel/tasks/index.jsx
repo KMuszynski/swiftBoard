@@ -27,6 +27,8 @@ import {
   Text,
 } from '@chakra-ui/react'
 
+import {supabase} from '@/api'
+
 const Tasks = () => {
   const data = [
     {
@@ -83,13 +85,13 @@ const Tasks = () => {
   })
 
   const handleDelete = (name) => {
-    console.log(name)
     setTasks(
       tasks.filter((task) => {
         return task.name !== name
       })
     )
   }
+
   return (
     <Center>
       <Stack spacing={5} w="3xl" pt="8">
@@ -106,41 +108,56 @@ const Tasks = () => {
               onChange={handleFilterChange}
             />
           </InputGroup>
-          <IconButton aria-label="Add task" variant="ghost" icon={<AddIcon />} size="lg" ml={4} />
+          <IconButton
+            aria-label="Add task"
+            variant="ghost"
+            icon={<AddIcon />}
+            size="lg"
+            ml={4}
+            onClick={() => console.log(supabase)}
+          />
         </Flex>
         {tasksFiltered &&
           tasksFiltered.map((task, id) => (
-            <Box key={id} bg="gray.700" rounded="3xl" boxShadow="2xl">
-              <Accordion allowToggle m={1}>
-                <AccordionItem border="none">
-                  <Flex align="center">
-                    <AccordionButton mr="3">
-                      <Box as="span" flex="1" textAlign="left">
-                        <Heading as="h3" size="md">
-                          {task.name}
-                        </Heading>
-                        <Divider mb={2} mt={4} />
-                        <Text>{task.points} punktów</Text>
-                      </Box>
-                      <AccordionIcon ml="5" />
-                    </AccordionButton>
-                    <Menu>
-                      <MenuButton as={IconButton} icon={<HamburgerIcon />} variant="ghost" size="lg" mr={3} />
-                      <MenuList>
-                        <MenuItem icon={<EditIcon />}>Edytuj zadanie</MenuItem>
-                        <MenuItem icon={<DeleteIcon />} onClick={() => handleDelete(task.name)}>
-                          Usuń zadanie
-                        </MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </Flex>
-                  <AccordionPanel pb={2}>{task.description}</AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            </Box>
+            <SingleTask task={task} id={id} key={id} handleDelete={handleDelete} />
           ))}
       </Stack>
     </Center>
+  )
+}
+
+const SingleTask = ({task, handleDelete}) => {
+  return (
+    <Box bg="gray.700" rounded="3xl" boxShadow="2xl">
+      <Accordion allowToggle m={1}>
+        <AccordionItem border="none">
+          <Flex align="center">
+            <AccordionButton mr="3">
+              <Box as="span" flex="1" textAlign="left">
+                <Heading as="h3" size="md">
+                  {task.name}
+                </Heading>
+                <Divider mb={2} mt={4} />
+                <Text>{task.points} punktów</Text>
+              </Box>
+              <AccordionIcon ml="5" />
+            </AccordionButton>
+            <Menu>
+              <MenuButton as={IconButton} icon={<HamburgerIcon />} variant="ghost" size="lg" mr={3} />
+              <MenuList>
+                <MenuItem icon={<EditIcon />} onClick={null}>
+                  Edytuj zadanie
+                </MenuItem>
+                <MenuItem icon={<DeleteIcon />} onClick={() => handleDelete(task.name)}>
+                  Usuń zadanie
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Flex>
+          <AccordionPanel pb={2}>{task.description}</AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+    </Box>
   )
 }
 
