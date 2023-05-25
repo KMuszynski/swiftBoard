@@ -57,8 +57,6 @@ const Tasks = () => {
       if (data) {
         setTasks(
           tasks.filter((task) => {
-            console.log(task.id)
-            console.log(data)
             return task.id !== data[0].id
           })
         )
