@@ -202,6 +202,16 @@ export interface Database {
       }
     }
     Views: {
+      company_documents_signed: {
+        Row: {
+          company: string | null
+          created_at: string | null
+          id: string | null
+          name: string | null
+          path: string | null
+          url: string | null
+        }
+      }
       company_employees: {
         Row: {
           avatar_url: string | null

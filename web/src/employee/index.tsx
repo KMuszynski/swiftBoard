@@ -1,23 +1,20 @@
-import {Flex} from '@chakra-ui/react'
+import {Route} from 'react-router-dom'
 
-import Chat from './chat'
-import EmployeeSidebar from './sidebar'
-import TaskViewer from './task-viewer'
+import {EMPLOYEE_CALENDAR, EMPLOYEE_CHAT, EMPLOYEE_DOCUMENTS} from '@/router/paths'
 
-const EmployeePanel = () => {
-  return (
-    <Flex h="100%" w="100%">
-      <Flex flex={1}>
-        <EmployeeSidebar />
-      </Flex>
-      <Flex flex={4}>
-        <TaskViewer />
-      </Flex>
-      <Flex flex={2}>
-        <Chat />
-      </Flex>
-    </Flex>
-  )
-}
+import EmployeeCalendar from './calendar'
+import ChatPage from './chat/page'
+import Dashboard from './dashboard'
+import Documents from './documents'
+import EmployeePanelLayout from './layout'
 
-export default EmployeePanel
+const EmployeePanelRouter = () => (
+  <Route element={<EmployeePanelLayout />}>
+    <Route index={true} element={<Dashboard />} />
+    <Route path={EMPLOYEE_CHAT} element={<ChatPage />} />
+    <Route path={EMPLOYEE_DOCUMENTS} element={<Documents />} />
+    <Route path={EMPLOYEE_CALENDAR} element={<EmployeeCalendar />} />
+  </Route>
+)
+
+export default EmployeePanelRouter
