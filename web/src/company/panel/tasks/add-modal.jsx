@@ -29,14 +29,15 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [points, setPoints] = useState('')
+  const [maxPoints, setMaxPoints] = useState('')
+  const [minPoints, setMinPoints] = useState('')
 
   const user = useAppSelector(selectProfile)
 
   const handleSubmit = async (e) => {
     const {data, error} = await supabase
       .from('tasks')
-      .insert([{company: {user: company}, name, description, points}])
+      .insert([{company: user.company, name, description, max_points: maxPoints, min_points: minPoints}])
 
     if (error) {
       console.log(error)
@@ -55,7 +56,7 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
         duration: 5000,
         isClosable: true,
       })
-      fetchTasks(setTasks, company)
+      fetchTasks(setTasks, user.company)
       onClose()
     }
   }
@@ -86,14 +87,22 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </FormControl>
-
             <FormControl mt={4}>
-              <FormLabel>Liczba punktów</FormLabel>
+              <FormLabel>Maksymalna iczba punktów</FormLabel>
               <Input
-                placeholder="liczba punktów"
+                placeholder="maksymalna liczba punktów"
                 type="number"
-                value={points}
-                onChange={(e) => setPoints(e.target.value)}
+                value={maxPoints}
+                onChange={(e) => setMaxPoints(e.target.value)}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Minimalna iczba punktów</FormLabel>
+              <Input
+                placeholder="minimalna liczba punktów"
+                type="number"
+                value={minPoints}
+                onChange={(e) => setMinPoints(e.target.value)}
               />
             </FormControl>
           </ModalBody>
@@ -103,7 +112,7 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
               colorScheme="blue"
               mr={3}
               onClick={handleSubmit}
-              isDisabled={!name || !description || !points}
+              isDisabled={!name || !description || !maxPoints || !minPoints || minPoints > maxPoints}
             >
               Zapisz
             </Button>

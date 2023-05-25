@@ -106,7 +106,9 @@ const SingleTask = ({task, handleDelete}) => {
                   {task.name}
                 </Heading>
                 <Divider mb={2} mt={4} />
-                <Text>{task.points} punktów</Text>
+                <Text>
+                  {task.min_points}-{task.max_points} punktów
+                </Text>
               </Box>
               <AccordionIcon ml="5" />
             </AccordionButton>
