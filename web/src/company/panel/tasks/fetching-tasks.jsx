@@ -3,9 +3,13 @@ import {selectProfile} from '@/auth/state'
 import {useAppSelector} from '@/store'
 
 const fetchTasks = async (setTasks, company) => {
-  const {data, error} = await supabase.from('tasks').select().eq('company', company)
+  try {
+    const {data, error} = await supabase.from('tasks').select().eq('company', company)
+    if (error) throw error
 
-  if (error) {
+    if (data) setTasks(data)
+  } catch (error) {
+    console.log(error)
     toast({
       title: 'Błąd.',
       description: 'Nie można pobrać tasków.',
@@ -14,9 +18,6 @@ const fetchTasks = async (setTasks, company) => {
       isClosable: true,
     })
     setTasks(null)
-  }
-  if (data) {
-    setTasks(data)
   }
 }
 

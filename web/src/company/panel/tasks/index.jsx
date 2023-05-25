@@ -36,13 +36,11 @@ import fetchTasks from './fetching-tasks'
 const Tasks = () => {
   const [filter, setFilter] = useState('')
   const [tasks, setTasks] = useState(null)
-  const [fetchError, setFetchError] = useState(null)
 
   const user = useAppSelector(selectProfile)
-  const company = user.company
 
   useEffect(() => {
-    fetchTasks(setTasks, company)
+    fetchTasks(setTasks, user.company)
   }, [])
 
   const handleFilterChange = (event) => setFilter(event.target.value)
@@ -63,7 +61,6 @@ const Tasks = () => {
 
   return (
     <Center>
-      {fetchError && <Box>{fetchError}</Box>}
       <Stack spacing={5} w="3xl" pt="8">
         <Flex>
           <InputGroup size="lg" mb={4} rounded="3xl">

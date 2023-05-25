@@ -32,23 +32,11 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
   const [points, setPoints] = useState('')
 
   const user = useAppSelector(selectProfile)
-  const company = user.company
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    if (!name || !description || !points) {
-      toast({
-        title: 'Błąd. ',
-        description: 'Uzupełnij wszystkie pola.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      })
-      return
-    }
-
-    const {data, error} = await supabase.from('tasks').insert([{company, name, description, points}])
+    const {data, error} = await supabase
+      .from('tasks')
+      .insert([{company: {user: company}, name, description, points}])
 
     if (error) {
       console.log(error)
@@ -111,7 +99,12 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={handleSubmit}
+              isDisabled={!name || !description || !points}
+            >
               Zapisz
             </Button>
             <Button onClick={onClose}>Anuluj</Button>
