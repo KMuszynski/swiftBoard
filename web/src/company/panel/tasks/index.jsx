@@ -49,12 +49,31 @@ const Tasks = () => {
     return task.name.toLowerCase().includes(filter.toLowerCase())
   })
 
-  const handleDelete = (name) => {
-    setTasks(
-      tasks.filter((task) => {
-        return task.name !== name
+  const handleDelete = async (id) => {
+    try {
+      const {data, error} = await supabase.from('tasks').delete().eq('id', id).select()
+      if (error) throw error
+
+      if (data) {
+        setTasks(
+          tasks.filter((task) => {
+            console.log(task.id)
+            console.log(data)
+            return task.id !== data[0].id
+          })
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: 'Błąd.',
+        description: 'Nie można usunąć zadania.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
       })
-    )
+      setTasks(null)
+    }
   }
 
   const {isOpen, onOpen, onClose} = useDisclosure()
@@ -118,7 +137,7 @@ const SingleTask = ({task, handleDelete}) => {
                 <MenuItem icon={<EditIcon />} onClick={null}>
                   Edytuj zadanie
                 </MenuItem>
-                <MenuItem icon={<DeleteIcon />} onClick={() => handleDelete(task.name)}>
+                <MenuItem icon={<DeleteIcon />} onClick={() => handleDelete(task.id)}>
                   Usuń zadanie
                 </MenuItem>
               </MenuList>

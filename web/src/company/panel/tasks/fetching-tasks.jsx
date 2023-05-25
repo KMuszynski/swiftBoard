@@ -12,7 +12,7 @@ const fetchTasks = async (setTasks, company) => {
     console.log(error)
     toast({
       title: 'Błąd.',
-      description: 'Nie można pobrać tasków.',
+      description: 'Nie można pobrać zadań.',
       status: 'error',
       duration: 5000,
       isClosable: true,
