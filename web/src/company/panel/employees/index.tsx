@@ -53,15 +53,17 @@ const Employees = () => {
               </Th>
             </Tr>
           </Thead>
-          {loading ? (
-            <Spinner />
-          ) : (
-            <Tbody>
-              {employees.map((item, i) => (
-                <Row key={i} item={item} />
-              ))}
-            </Tbody>
-          )}
+          <Tbody>
+            {loading ? (
+              <Tr>
+                <Td>
+                  <Spinner />
+                </Td>
+              </Tr>
+            ) : (
+              employees.map((item, i) => <Row key={i} item={item} />)
+            )}
+          </Tbody>
         </Table>
       </TableContainer>
       <EmployeeEditorModal

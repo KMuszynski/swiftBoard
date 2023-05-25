@@ -188,4 +188,16 @@ left join lateral(
   where ut."user" = cu."user"
 ) ut on true;
 
+create view "company_documents_signed" as
+select
+  cd."id",
+  cd."created_at",
+  cd."company",
+  cd."name",
+  cd."path",
+  generate_signed_file_url('companies', cd."path") as "url"
+from "company_documents" cd
+inner join "company_users" cu on cu."company" = cd."company" 
+where cu."user" = auth.uid();
+
 -- migrate:down
