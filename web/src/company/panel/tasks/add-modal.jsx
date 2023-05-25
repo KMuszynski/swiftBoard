@@ -67,7 +67,7 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
         duration: 5000,
         isClosable: true,
       })
-      fetchTasks(setTasks)
+      fetchTasks(setTasks, company)
       onClose()
     }
   }

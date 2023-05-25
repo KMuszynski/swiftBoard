@@ -1,7 +1,9 @@
 import {supabase} from '@/api'
+import {selectProfile} from '@/auth/state'
+import {useAppSelector} from '@/store'
 
-const fetchTasks = async (setTasks) => {
-  const {data, error} = await supabase.from('tasks').select()
+const fetchTasks = async (setTasks, company) => {
+  const {data, error} = await supabase.from('tasks').select().eq('company', company)
 
   if (error) {
     toast({

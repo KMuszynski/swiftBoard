@@ -27,6 +27,8 @@ import {
 } from '@chakra-ui/react'
 
 import {supabase} from '@/api'
+import {selectProfile} from '@/auth/state'
+import {useAppSelector} from '@/store'
 
 import AddTaskModal from './add-modal'
 import fetchTasks from './fetching-tasks'
@@ -36,8 +38,11 @@ const Tasks = () => {
   const [tasks, setTasks] = useState(null)
   const [fetchError, setFetchError] = useState(null)
 
+  const user = useAppSelector(selectProfile)
+  const company = user.company
+
   useEffect(() => {
-    fetchTasks(setTasks)
+    fetchTasks(setTasks, company)
   }, [])
 
   const handleFilterChange = (event) => setFilter(event.target.value)
