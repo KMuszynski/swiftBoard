@@ -5,21 +5,21 @@ create table "tasks" (
   "created_at" timestamptz not null default now(),
   "updated_at" timestamptz not null default now(),
 
-  "company" uuid not null references "companies"("id"),
+  "company" uuid not null references "companies"("id") on delete cascade,
   "name" text not null,
   "description" text not null,
-  "document" uuid references "company_documents"("id"),
+  "documents" text[] not null default '{}'::text[],
   "max_points" int not null default 0, -- number of points granted depends on the time to deadline
   "min_points" int not null default 0,
-  "number_of_questions" int not null default 0,
-  "questions" text[] not null default '{}'::text[]
+  -- "number_of_questions" int not null default 0,
+  -- "questions" text[] not null default '{}'::text[]
 );
 
 create type task_status as enum ('assigned', 'completed', 'failed');
 
 create table "user_tasks" (
-  "task" uuid not null references "tasks"("id"),
-  "user" uuid not null references "users"("id"),
+  "task" uuid not null references "tasks"("id") on delete cascade,
+  "user" uuid not null references "users"("id") on delete cascade,
   primary key ("task", "user"),
 
   "assigned_at" timestamptz not null default now(),

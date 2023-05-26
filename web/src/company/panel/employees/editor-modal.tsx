@@ -13,7 +13,7 @@ const inputToUpsertArgs = (
 ): Database['public']['Functions']['upsert_company_user']['Args'] => ({
   company_id: company,
   email: input.email || '',
-  position: input.position || '',
+  position: input.position_id || undefined,
   requirements: input.requirements || [],
   responsibilities: input.responsibilities || [],
   role: input.role || 'employee',

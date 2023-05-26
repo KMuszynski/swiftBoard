@@ -15,24 +15,35 @@ create table "companies" (
 create table "company_documents" (
   "id" uuid default uuid_generate_v4() primary key,
   "created_at" timestamptz not null default now(),
-  "company" uuid not null references "companies"("id"),
+  "company" uuid not null references "companies"("id") on delete cascade,
   "name" text not null,
   "path" text not null
+);
+
+create table "company_positions" (
+  "id" uuid primary key default uuid_generate_v4(),
+  "created_at" timestamptz not null default now(),
+  "updated_at" timestamptz not null default now(),
+
+  "company" uuid not null references "companies"("id") on delete cascade,
+  "name" text not null,
+  "responsibilities" text[] not null default '{}'::text[],
+  "requirements" text[] not null default '{}'::text[]
 );
 
 create type company_user_role as enum ('admin', 'employee');
 
 create table "company_users" (
-  "user" uuid not null references "users"("id"),
-  "company" uuid not null references "companies"("id"),
+  "user" uuid not null references "users"("id") on delete cascade,
+  "company" uuid not null references "companies"("id") on delete cascade,
   primary key ("user", "company"),
 
   "created_at" timestamptz not null default now(),
   "updated_at" timestamptz not null default now(),
   "role" company_user_role not null default 'employee',
-  "position" text not null, -- TODO: make company_positions table
-  "responsibilities" text[] not null default '{}'::text[],
-  "requirements" text[] not null default '{}'::text[],
+  "position" uuid references "company_positions"("id") on delete set null,
+  "responsibilities" text[] not null default '{}'::text[], -- extra
+  "requirements" text[] not null default '{}'::text[], -- extra
   "points" int not null default 0
 );
 
@@ -61,8 +72,8 @@ begin
     "updated_at" = now();
 
   -- make the user who created the company an admin
-  insert into "company_users" ("user", "company", "role", "position")
-  values (auth.uid(), "company_id", 'admin', 'admin')
+  insert into "company_users" ("user", "company", "role")
+  values (auth.uid(), "company_id", 'admin')
   on conflict ("user", "company") do nothing;
 
   return jsonb_build_object(
@@ -76,9 +87,9 @@ create or replace function "upsert_company_user"(
   "company_id" uuid,
   "email" text,
   "role" company_user_role,
-  "position" text,
   "responsibilities" text[],
-  "requirements" text[]
+  "requirements" text[],
+  "position" uuid default null
 )
   returns jsonb
   language plpgsql
@@ -122,11 +133,12 @@ select
   generate_user_avatar_url(u."id") as "avatar_url",
   cu."company",
   cu."role" as "company_role",
-  cu."position", 
+  cp."name" as "position",
   cu."points"
 from "users" u
 left join "company_users" cu on cu."user" = u."id"
 left join "companies" c on c."id" = cu."company"
+left join "company_positions" cp on cp."id" = cu."position"
 where auth.uid() = u."id";
 
 create view company_info as
@@ -147,7 +159,8 @@ select
   generate_user_avatar_url(u."id") as "avatar_url",
   cu."company",
   cu."role",
-  cu."position", 
+  cp."id" as "position_id", 
+  cp."name" as "position_name", 
   cu."responsibilities", 
   cu."requirements",
   cu."points",
@@ -155,6 +168,7 @@ select
 from "company_users" cu
 left join "users" u on u."id" = cu."user"
 left join "companies" c on c."id" = cu."company"
+left join "company_positions" cp on cp."id" = cu."position" 
 left join lateral(
   select array_agg(ut."status") as "task_statuses"
   from "user_tasks" ut

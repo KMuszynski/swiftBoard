@@ -70,7 +70,7 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
 
   return (
     <>
-      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose} size="4xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Dodaj nowe zadanie</ModalHeader>
