@@ -15,7 +15,7 @@ create table "companies" (
 create table "company_documents" (
   "id" uuid default uuid_generate_v4() primary key,
   "created_at" timestamptz not null default now(),
-  "company" uuid not null references "companies"("id"),
+  "company" uuid not null references "companies"("id") on delete cascade,
   "name" text not null,
   "path" text not null
 );
@@ -23,8 +23,8 @@ create table "company_documents" (
 create type company_user_role as enum ('admin', 'employee');
 
 create table "company_users" (
-  "user" uuid not null references "users"("id"),
-  "company" uuid not null references "companies"("id"),
+  "user" uuid not null references "users"("id") on delete cascade,
+  "company" uuid not null references "companies"("id") on delete cascade,
   primary key ("user", "company"),
 
   "created_at" timestamptz not null default now(),

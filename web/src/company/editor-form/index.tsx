@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {Box, Button, Flex, FormControl, FormLabel, Input, Stack, Textarea} from '@chakra-ui/react'
+import {Box, Button, Flex, FormControl, FormLabel, Input, Textarea} from '@chakra-ui/react'
 import {useNavigate} from 'react-router-dom'
 
 import {Database} from '@/api/database.types'
@@ -39,7 +39,7 @@ const CompanyEditorForm = ({item}: {item: Company | null}) => {
   })
 
   return (
-    <Flex gap={10} justify="center" align="center" pt={28}>
+    <Flex gap={10} justify="center" align="center">
       <ImageUpload width={420} height={420} editing={true} value={image} onChange={setImage} />
       <Box>
         <FormControl isDisabled={loading} w="2xl" pb={3}>
