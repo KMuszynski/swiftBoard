@@ -3,6 +3,7 @@ import {useToast} from '@chakra-ui/react'
 import {supabase} from '@/api'
 import {selectProfile} from '@/auth/state'
 import {useAppSelector} from '@/store'
+import {toast} from '@/theme'
 
 const fetchTasks = async (setTasks, company) => {
   try {
@@ -13,7 +14,7 @@ const fetchTasks = async (setTasks, company) => {
       .order('created_at', {ascending: false})
     if (error) throw error
 
-    if (data) setTasks(data)
+    setTasks(data || [])
   } catch (error) {
     console.log(error)
     toast({

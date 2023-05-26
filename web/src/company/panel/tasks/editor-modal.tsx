@@ -53,6 +53,11 @@ const TaskEditorModal = ({
     [handleCustomInputChange]
   )
 
+  const isSubmitDisabled = React.useMemo(
+    () => !input.name || !input.description || input.min_points > input.max_points,
+    [input]
+  )
+
   return (
     <EditorModal
       title={`${item ? 'Edytuj' : 'Dodaj'} zadanie`}
@@ -60,6 +65,8 @@ const TaskEditorModal = ({
       onClose={onClose}
       onSubmit={handleUpsert}
       loading={loading}
+      isDisabled={isSubmitDisabled}
+      size="3xl"
     >
       <Stack spacing={4}>
         <FormControl>
@@ -68,20 +75,20 @@ const TaskEditorModal = ({
         </FormControl>
         <FormControl>
           <FormLabel>Opis</FormLabel>
-          <Textarea name="description" value={input.description} onChange={handleInputChange} />
+          <Textarea name="description" minH="300px" value={input.description} onChange={handleInputChange} />
         </FormControl>
         <FormControl>
           <FormLabel>Liczba punktów</FormLabel>
           <HStack>
-            <Stack>
-              <FormLabel>Max</FormLabel>
-              <NumberInput min={0} value={input.max_points} onChange={handleMaxPointsChange}>
+            <Stack spacing={0}>
+              <FormLabel>Min</FormLabel>
+              <NumberInput min={0} value={input.min_points} onChange={handleMinPointsChange}>
                 <NumberInputField />
               </NumberInput>
             </Stack>
-            <Stack>
-              <FormLabel>Min</FormLabel>
-              <NumberInput min={0} value={input.min_points} onChange={handleMinPointsChange}>
+            <Stack spacing={0}>
+              <FormLabel>Max</FormLabel>
+              <NumberInput min={0} value={input.max_points} onChange={handleMaxPointsChange}>
                 <NumberInputField />
               </NumberInput>
             </Stack>

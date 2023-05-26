@@ -10,5 +10,6 @@ export type CompanyUser = Database['public']['Tables']['company_users']['Row']
 export type CompanyEmployee = Database['public']['Views']['company_employees']['Row']
 
 export type Task = Database['public']['Tables']['tasks']['Row']
+export type UserTask = Database['public']['Tables']['user_tasks']['Row']
 
 export type EmployeeTask = Database['public']['Views']['employee_tasks']['Row']

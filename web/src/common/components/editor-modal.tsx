@@ -17,10 +17,11 @@ type Props = ModalProps & {
   children: React.ReactNode
   loading?: boolean
   title?: string
+  isDisabled?: boolean
   onSubmit: () => void
 }
 
-const EditorModal = ({children, loading, title, onSubmit, onClose, ...rest}: Props) => (
+const EditorModal = ({children, loading, title, isDisabled, onSubmit, onClose, ...rest}: Props) => (
   <Modal onClose={onClose} size="xl" {...rest}>
     <ModalOverlay />
     <ModalContent>
@@ -32,7 +33,7 @@ const EditorModal = ({children, loading, title, onSubmit, onClose, ...rest}: Pro
           <Button isDisabled={loading} onClick={onClose} variant="outline">
             Anuluj
           </Button>
-          <Button isLoading={loading} onClick={onSubmit}>
+          <Button isLoading={loading} isDisabled={isDisabled} onClick={onSubmit}>
             Zapisz
           </Button>
         </Flex>

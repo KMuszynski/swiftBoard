@@ -20,12 +20,12 @@ type Props = CommonModalProps & {
   id?: string | number
   onDelete?: () => Promise<void>
   headerText?: string
-  name?: string
+  name?: string | null
   onFailTitle?: string
   onSuccessTitle?: string
 }
 
-const DeleteResourceModal = ({
+const DeleteResourceDialog = ({
   onClose,
   open,
   table,
@@ -84,4 +84,4 @@ const DeleteResourceModal = ({
   )
 }
 
-export default DeleteResourceModal
+export default DeleteResourceDialog

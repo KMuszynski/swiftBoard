@@ -87,38 +87,39 @@ const useSupabaseUpsert = <T extends AnyObject>({
       })
       values.id = covertedInput.id || undefined
 
-      console.log(values)
-
       let query
       if (customRPC) query = supabase.rpc(customRPC, values as any)
-      else if (table)
-        query = supabase
-          .from(table)
-          .upsert({...values, updated_at: new Date()})
-          .select('id')
-      else throw new Error('No upsert function or table specified')
+      else if (table) {
+        query = supabase.from(table).upsert({...values, updated_at: new Date()})
+        // we need ID if we want to upload an image
+        if (imageParams) {
+          query = query.select('id')
+        }
+      } else throw new Error('No upsert function or table specified')
 
       const {data, error} = await query
       if (error) throw error
 
       let id
-      if (customRPC) {
-        const response = data as unknown as UpsertResponse
-        if ('error' in response) throw new Error(response.error)
+      if (imageParams) {
+        if (customRPC) {
+          const response = data as unknown as UpsertResponse
+          if ('error' in response) throw new Error(response.error)
 
-        id = response.id
-      } else {
-        const response = data as unknown as
-          | {
-              id: string
-            }[]
-          | null
-        if (!response?.length) throw new Error("Failed to retrieve upserted item's id")
+          id = response.id
+        } else {
+          const response = data as unknown as
+            | {
+                id: string
+              }[]
+            | null
+          if (!response?.length) throw new Error("Failed to retrieve upserted item's id")
 
-        id = response[0].id
+          id = response[0].id
+        }
+
+        id && (await handleImageUpload(id))
       }
-
-      if (imageParams && id) await handleImageUpload(id)
 
       toast({isClosable: true, status: 'success', title: input.id ? 'Zaktualizowano' : 'Dodano'})
       onComplete && onComplete()

@@ -19,7 +19,7 @@ export const Message = ({msg}: {msg: ChatMessage}) => {
   ) : (
     <Flex w="100%" align="flex-end" gap={2}>
       <Icon as={SiOpenai} boxSize={8} />
-      <Text bg="gray.900" px={4} py={2} rounded="10px 10px 10px 0">
+      <Text bg="gray.800" px={4} py={2} rounded="10px 10px 10px 0">
         {msg.content}
       </Text>
     </Flex>

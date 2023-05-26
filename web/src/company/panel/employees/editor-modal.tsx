@@ -1,19 +1,23 @@
-import {FormControl, FormLabel, Input, Select, Stack, Text} from '@chakra-ui/react'
+import React from 'react'
+
+import {Select as ChakraSelect, FormControl, FormLabel, Input, Stack, Text} from '@chakra-ui/react'
+import Select, {SingleValue} from 'react-select'
 
 import {Database} from '@/api/database.types'
-import {CompanyEmployee} from '@/api/models'
+import {CompanyEmployee, User} from '@/api/models'
 import EditorModal from '@/common/components/editor-modal'
-import {useEditorModalState} from '@/common/hooks'
+import {useEditorModalState, useListQuery} from '@/common/hooks'
 import {companyRoleItems, emptyEmployee} from '@/company/costants'
-import {CommonModalProps} from '@/utils/types'
+import {selectStyles} from '@/theme/components/select'
+import {CommonModalProps, SelectOption} from '@/utils/types'
 
 const inputToUpsertArgs = (
   input: CompanyEmployee,
   company: string
-): Database['public']['Functions']['upsert_company_user']['Args'] => ({
-  company_id: company,
-  email: input.email || '',
-  position: input.position_id || undefined,
+): Database['public']['Tables']['company_users']['Insert'] => ({
+  company,
+  user: input.id || '',
+  position: input.position_id,
   requirements: input.requirements || [],
   responsibilities: input.responsibilities || [],
   role: input.role || 'employee',
@@ -25,29 +29,57 @@ const EmployeeEditorModal = ({
   open,
   onClose,
   onComplete,
-}: CommonModalProps & {item: CompanyEmployee | null; company: string}) => {
-  const {input, handleInputChange, handleUpsert, loading} = useEditorModalState<CompanyEmployee>({
-    item,
-    customRPC: 'upsert_company_user',
-    emptyInput: emptyEmployee,
-    inputToUpsertArgs: () => inputToUpsertArgs(input, company),
-    open,
-    onComplete,
-    onClose,
-  })
+}: CommonModalProps & {item: CompanyEmployee; company: string}) => {
+  const {input, handleInputChange, handleCustomInputChange, handleUpsert, loading} =
+    useEditorModalState<CompanyEmployee>({
+      item,
+      table: 'company_users',
+      emptyInput: emptyEmployee,
+      inputToUpsertArgs: () => inputToUpsertArgs(input, company),
+      open,
+      onComplete,
+      onClose,
+    })
+
+  const [users] = useListQuery<User>(
+    React.useMemo(
+      () => ({
+        from: 'users',
+        order: ['email'],
+      }),
+      []
+    )
+  )
+
+  const usersOptions: SelectOption[] = React.useMemo(
+    () => users.map((u) => ({value: u.id, label: u.email})),
+    [users]
+  )
+
+  const handleUserChange = React.useCallback(
+    (v: SingleValue<SelectOption>) => v?.value && handleCustomInputChange({id: v.value}),
+    [handleCustomInputChange]
+  )
 
   return (
     <EditorModal
-      title={`${item ? 'Edytuj' : 'Dodaj'} pracownika`}
+      title={`${item.id ? 'Edytuj' : 'Dodaj'} pracownika`}
       isOpen={open}
       onClose={onClose}
       onSubmit={handleUpsert}
       loading={loading}
     >
       <Stack>
-        <FormControl isDisabled={loading || !!item}>
+        <FormControl isDisabled={loading || !!item.id}>
           <FormLabel>E-mail</FormLabel>
-          <Input name="email" value={input.email ?? ''} onChange={handleInputChange} />
+          <Select
+            placeholder="E-mail"
+            value={usersOptions.filter((s) => s.value === input.id)}
+            options={usersOptions}
+            onChange={handleUserChange}
+            styles={selectStyles}
+            isDisabled={loading || !!item.id}
+          />
         </FormControl>
         <FormControl isDisabled={loading}>
           <FormLabel>Stanowisko</FormLabel>
@@ -55,13 +87,13 @@ const EmployeeEditorModal = ({
         </FormControl>
         <FormControl isDisabled={loading}>
           <FormLabel>Rola</FormLabel>
-          <Select name="role" value={input.role} onChange={handleInputChange}>
+          <ChakraSelect name="role" value={input.role} onChange={handleInputChange}>
             {Object.entries(companyRoleItems).map(([key, value]) => (
               <option value={key} key={key}>
                 {value}
               </option>
             ))}
-          </Select>
+          </ChakraSelect>
         </FormControl>
         <FormControl isDisabled={loading}>
           <FormLabel>Obowiązki</FormLabel>

@@ -26,7 +26,7 @@ const EmployeePanelLayout = () => {
         borderColor="whiteAlpha.600"
         right={isOpen ? 0 : '-487px'}
       >
-        <Flex zIndex={100} position="relative" align="center" pl={2}>
+        <Flex zIndex={100} position="relative" align="center" pl={2} bg="gray.900">
           <Chat />
           <IconButton
             position="absolute"
