@@ -43,12 +43,13 @@ const CompanyEditorForm = ({item}: {item: Company | null}) => {
       <ImageUpload width={420} height={420} editing={true} value={image} onChange={setImage} />
       <Box>
         <FormControl isDisabled={loading} w="2xl" pb={3}>
-          <FormLabel>Nazwa</FormLabel>
-          <Input name="name" value={input.name ?? ''} onChange={handleInputChange} />
+          <FormLabel fontSize="xl">Nazwa</FormLabel>
+          <Input name="name" value={input.name ?? ''} onChange={handleInputChange} fontSize="lg" />
         </FormControl>
         <FormControl isDisabled={loading} w="2xl" pb={3}>
-          <FormLabel>Opis</FormLabel>
+          <FormLabel fontSize="xl">Opis</FormLabel>
           <Textarea
+            fontSize="md"
             name="description"
             value={input.description ?? ''}
             onChange={handleInputChange}

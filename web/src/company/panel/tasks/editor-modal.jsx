@@ -37,7 +37,8 @@ const EditTaskModal = ({isOpen, onOpen, onClose, setTasks, task}) => {
   const handleSubmit = async (e) => {
     const {data, error} = await supabase
       .from('tasks')
-      .insert([{company: user.company, name, description, max_points: maxPoints, min_points: minPoints}])
+      .update([{company: user.company, name, description, max_points: maxPoints, min_points: minPoints}])
+      .eq('id', task.id)
 
     if (error) {
       console.log(error)
