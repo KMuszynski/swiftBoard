@@ -43,16 +43,16 @@ const EditTaskModal = ({isOpen, onOpen, onClose, setTasks, task}) => {
     if (error) {
       console.log(error)
       toast({
-        title: 'Task nie dodany.',
-        description: 'Dodanie nowego taska nie powiodło się.',
+        title: 'Zadanie nie zedytowane.',
+        description: 'Edycja zadania nie powiodła się.',
         status: 'error',
         duration: 5000,
         isClosable: true,
       })
     } else {
       toast({
-        title: 'Task dodany.',
-        description: 'Nowy task został pomyślnie dodany.',
+        title: 'Zadanie zedytowane.',
+        description: 'Zadanie zostało pomyślnie edytowane.',
         status: 'success',
         duration: 5000,
         isClosable: true,

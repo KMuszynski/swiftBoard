@@ -42,8 +42,8 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
     if (error) {
       console.log(error)
       toast({
-        title: 'Task nie dodany.',
-        description: 'Dodanie nowego taska nie powiodło się.',
+        title: 'Zadanie nie dodane.',
+        description: 'Dodanie nowego zadania nie powiodło się.',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -51,7 +51,7 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
     } else {
       toast({
         title: 'Task dodany.',
-        description: 'Nowy task został pomyślnie dodany.',
+        description: 'Nowe zadanie został0 pomyślnie dodane.',
         status: 'success',
         duration: 5000,
         isClosable: true,
