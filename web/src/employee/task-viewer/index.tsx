@@ -1,6 +1,8 @@
 import React from 'react'
 
-import {Flex, Heading, Stack} from '@chakra-ui/react'
+import {Heading, Stack} from '@chakra-ui/react'
+import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
+import ReactMarkdown from 'react-markdown'
 import {useParams} from 'react-router-dom'
 
 import {EmployeeTask} from '@/api/models'
@@ -26,7 +28,9 @@ const TaskViewer = () => {
       ) : (
         <>
           <Heading>{task?.name}</Heading>
-          <Flex color="black">{task?.description}</Flex>
+          {task?.description && (
+            <ReactMarkdown children={task.description} components={ChakraUIRenderer()} skipHtml />
+          )}
         </>
       )}
     </Stack>

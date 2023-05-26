@@ -31,7 +31,7 @@ import {selectProfile} from '@/auth/state'
 import {useAppSelector} from '@/store'
 
 import AddTaskModal from './add-modal'
-import EditTaskModal from './editor-modal'
+import EditTaskModal from './editor-modal-old'
 import fetchTasks from './fetching-tasks'
 
 const Tasks = () => {

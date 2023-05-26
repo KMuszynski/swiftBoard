@@ -8,11 +8,11 @@ create table "tasks" (
   "company" uuid not null references "companies"("id") on delete cascade,
   "name" text not null,
   "description" text not null,
-  "documents" uuid references "company_documents"("id"),
+  "documents" text[] not null default '{}'::text[],
   "max_points" int not null default 0, -- number of points granted depends on the time to deadline
   "min_points" int not null default 0,
-  "number_of_questions" int not null default 0,
-  "questions" text[] not null default '{}'::text[]
+  -- "number_of_questions" int not null default 0,
+  -- "questions" text[] not null default '{}'::text[]
 );
 
 create type task_status as enum ('assigned', 'completed', 'failed');

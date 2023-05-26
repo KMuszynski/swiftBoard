@@ -58,12 +58,41 @@ export interface Database {
           path?: string
         }
       }
+      company_positions: {
+        Row: {
+          company: string
+          created_at: string
+          id: string
+          name: string
+          requirements: string[]
+          responsibilities: string[]
+          updated_at: string
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          id?: string
+          name: string
+          requirements?: string[]
+          responsibilities?: string[]
+          updated_at?: string
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          id?: string
+          name?: string
+          requirements?: string[]
+          responsibilities?: string[]
+          updated_at?: string
+        }
+      }
       company_users: {
         Row: {
           company: string
           created_at: string
           points: number
-          position: string
+          position: string | null
           requirements: string[]
           responsibilities: string[]
           role: Database["public"]["Enums"]["company_user_role"]
@@ -74,7 +103,7 @@ export interface Database {
           company: string
           created_at?: string
           points?: number
-          position: string
+          position?: string | null
           requirements?: string[]
           responsibilities?: string[]
           role?: Database["public"]["Enums"]["company_user_role"]
@@ -85,12 +114,38 @@ export interface Database {
           company?: string
           created_at?: string
           points?: number
-          position?: string
+          position?: string | null
           requirements?: string[]
           responsibilities?: string[]
           role?: Database["public"]["Enums"]["company_user_role"]
           updated_at?: string
           user?: string
+        }
+      }
+      positions: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          requirements: string[]
+          responsibilities: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          requirements?: string[]
+          responsibilities?: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          requirements?: string[]
+          responsibilities?: string[]
+          updated_at?: string
         }
       }
       secrets: {
@@ -115,39 +170,33 @@ export interface Database {
           company: string
           created_at: string
           description: string
-          document: string | null
+          documents: string[]
           id: string
           max_points: number
           min_points: number
           name: string
-          number_of_questions: number
-          questions: string[]
           updated_at: string
         }
         Insert: {
           company: string
           created_at?: string
           description: string
-          document?: string | null
+          documents?: string[]
           id?: string
           max_points: number
           min_points?: number
           name: string
-          number_of_questions?: number
-          questions?: string[]
           updated_at?: string
         }
         Update: {
           company?: string
           created_at?: string
           description?: string
-          document?: string | null
+          documents?: string[]
           id?: string
           max_points?: number
           min_points?: number
           name?: string
-          number_of_questions?: number
-          questions?: string[]
           updated_at?: string
         }
       }
@@ -226,7 +275,8 @@ export interface Database {
           full_name: string | null
           id: string | null
           points: number | null
-          position: string | null
+          position_id: string | null
+          position_name: string | null
           requirements: string[] | null
           responsibilities: string[] | null
           role: Database["public"]["Enums"]["company_user_role"] | null
@@ -247,7 +297,7 @@ export interface Database {
           company: string | null
           deadline: string | null
           description: string | null
-          document: string | null
+          documents: string[] | null
           id: string | null
           name: string | null
           points: number | null
@@ -326,9 +376,9 @@ export interface Database {
           company_id: string
           email: string
           role: Database["public"]["Enums"]["company_user_role"]
-          position: string
           responsibilities: string[]
           requirements: string[]
+          position?: string
         }
         Returns: Json
       }
