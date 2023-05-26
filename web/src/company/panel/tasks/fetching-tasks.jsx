@@ -4,7 +4,11 @@ import {useAppSelector} from '@/store'
 
 const fetchTasks = async (setTasks, company) => {
   try {
-    const {data, error} = await supabase.from('tasks').select().eq('company', company)
+    const {data, error} = await supabase
+      .from('tasks')
+      .select()
+      .eq('company', company)
+      .order('created_at', {ascending: false})
     if (error) throw error
 
     if (data) setTasks(data)

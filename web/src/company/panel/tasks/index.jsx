@@ -31,6 +31,7 @@ import {selectProfile} from '@/auth/state'
 import {useAppSelector} from '@/store'
 
 import AddTaskModal from './add-modal'
+import EditTaskModal from './editor-modal'
 import fetchTasks from './fetching-tasks'
 
 const Tasks = () => {
@@ -104,14 +105,16 @@ const Tasks = () => {
         </Flex>
         {tasksFiltered &&
           tasksFiltered.map((task, id) => (
-            <SingleTask task={task} id={id} key={id} handleDelete={handleDelete} />
+            <SingleTask task={task} setTasks={setTasks} id={id} key={id} handleDelete={handleDelete} />
           ))}
       </Stack>
     </Center>
   )
 }
 
-const SingleTask = ({task, handleDelete}) => {
+const SingleTask = ({task, setTasks, handleDelete}) => {
+  const {isOpen, onOpen, onClose} = useDisclosure()
+
   return (
     <Box bg="gray.700" rounded="3xl" boxShadow="2xl">
       <Accordion allowToggle m={1}>
@@ -132,9 +135,17 @@ const SingleTask = ({task, handleDelete}) => {
             <Menu>
               <MenuButton as={IconButton} icon={<HamburgerIcon />} variant="ghost" size="lg" mr={3} />
               <MenuList>
-                <MenuItem icon={<EditIcon />} onClick={null}>
+                <MenuItem icon={<EditIcon />} onClick={onOpen}>
                   Edytuj zadanie
                 </MenuItem>
+                <EditTaskModal
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  onOpen={onOpen}
+                  task={task}
+                  setTasks={setTasks}
+                />
+
                 <MenuItem icon={<DeleteIcon />} onClick={() => handleDelete(task.id)}>
                   Usuń zadanie
                 </MenuItem>

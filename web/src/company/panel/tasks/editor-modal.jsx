@@ -23,14 +23,14 @@ import {useAppSelector} from '@/store'
 
 import fetchTasks from './fetching-tasks'
 
-const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
+const EditTaskModal = ({isOpen, onOpen, onClose, setTasks, task}) => {
   const initialRef = React.useRef(null)
   const toast = useToast()
 
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [maxPoints, setMaxPoints] = useState('')
-  const [minPoints, setMinPoints] = useState('')
+  const [name, setName] = useState(task.name)
+  const [description, setDescription] = useState(task.description)
+  const [maxPoints, setMaxPoints] = useState(task.max_points)
+  const [minPoints, setMinPoints] = useState(task.min_points)
 
   const user = useAppSelector(selectProfile)
 
@@ -58,10 +58,6 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
       })
       fetchTasks(setTasks, user.company)
       onClose()
-      setName('')
-      setDescription('')
-      setMaxPoints('')
-      setMinPoints('')
     }
   }
 
@@ -70,7 +66,7 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Dodaj nowe zadanie</ModalHeader>
+          <ModalHeader>Edytuj zadanie</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
@@ -128,4 +124,4 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
   )
 }
 
-export default AddTaskModal
+export default EditTaskModal
