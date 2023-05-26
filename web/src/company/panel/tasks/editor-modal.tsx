@@ -1,4 +1,15 @@
-import {FormControl, FormLabel, HStack, Input, Stack, Textarea} from '@chakra-ui/react'
+import React from 'react'
+
+import {
+  FormControl,
+  FormLabel,
+  HStack,
+  Input,
+  NumberInput,
+  NumberInputField,
+  Stack,
+  Textarea,
+} from '@chakra-ui/react'
 
 import {Database} from '@/api/database.types'
 import {Task} from '@/api/models'
@@ -22,15 +33,25 @@ const TaskEditorModal = ({
   onClose,
   onComplete,
 }: CommonModalProps & {item: Task | null; company: string}) => {
-  const {input, handleInputChange, handleUpsert, loading} = useEditorModalState<Task>({
-    item,
-    table: 'tasks',
-    emptyInput: emptyTask,
-    inputToUpsertArgs: () => inputToUpsertArgs(input, company),
-    open,
-    onComplete,
-    onClose,
-  })
+  const {input, handleInputChange, handleCustomInputChange, handleUpsert, loading} =
+    useEditorModalState<Task>({
+      item,
+      table: 'tasks',
+      emptyInput: emptyTask,
+      inputToUpsertArgs: () => inputToUpsertArgs(input, company),
+      open,
+      onComplete,
+      onClose,
+    })
+
+  const handleMaxPointsChange = React.useCallback(
+    (v) => handleCustomInputChange({max_points: v ? +v : undefined}),
+    [handleCustomInputChange]
+  )
+  const handleMinPointsChange = React.useCallback(
+    (v) => handleCustomInputChange({min_points: v ? +v : undefined}),
+    [handleCustomInputChange]
+  )
 
   return (
     <EditorModal
@@ -53,22 +74,16 @@ const TaskEditorModal = ({
           <FormLabel>Liczba punktów</FormLabel>
           <HStack>
             <Stack>
-              <FormLabel>Minimalna iczba punktów</FormLabel>
-              <Input
-                placeholder="maksymalna liczba punktów"
-                type="number"
-                value={input.max_points}
-                onChange={handleInputChange}
-              />
+              <FormLabel>Max</FormLabel>
+              <NumberInput min={0} value={input.max_points} onChange={handleMaxPointsChange}>
+                <NumberInputField />
+              </NumberInput>
             </Stack>
             <Stack>
-              <FormLabel>Minimalna iczba punktów</FormLabel>
-              <Input
-                placeholder="minimalna liczba punktów"
-                type="number"
-                value={input.max_points}
-                onChange={handleInputChange}
-              />
+              <FormLabel>Min</FormLabel>
+              <NumberInput min={0} value={input.min_points} onChange={handleMinPointsChange}>
+                <NumberInputField />
+              </NumberInput>
             </Stack>
           </HStack>
         </FormControl>

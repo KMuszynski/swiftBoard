@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react'
+import React from 'react'
 
 import {AddIcon, DeleteIcon, EditIcon, HamburgerIcon, SearchIcon} from '@chakra-ui/icons'
 import {
@@ -8,7 +9,6 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Button,
   Center,
   Divider,
   Flex,
@@ -27,22 +27,29 @@ import {
 } from '@chakra-ui/react'
 
 import {supabase} from '@/api'
+import {Task} from '@/api/models'
 import {selectProfile} from '@/auth/state'
+import {useListQuery} from '@/common/hooks'
+import {emptyTask} from '@/company/costants'
 import {useAppSelector} from '@/store'
 
-import AddTaskModal from './add-modal'
-import EditTaskModal from './editor-modal-old'
-import fetchTasks from './fetching-tasks'
+import TaskEditorModal from './editor-modal'
 
 const Tasks = () => {
+  const {isOpen, onOpen, onClose} = useDisclosure()
+  const [task, setTask] = useState(emptyTask)
   const [filter, setFilter] = useState('')
-  const [tasks, setTasks] = useState(null)
-
   const user = useAppSelector(selectProfile)
-
-  useEffect(() => {
-    fetchTasks(setTasks, user.company)
-  }, [])
+  const [tasks, loading, fetch] = useListQuery<Task>(
+    React.useMemo(
+      () => ({
+        from: 'tasks',
+        order: ['created_at'],
+        match: {company: user?.company || ''},
+      }),
+      [user]
+    )
+  )
 
   const handleFilterChange = (event) => setFilter(event.target.value)
 
@@ -50,32 +57,20 @@ const Tasks = () => {
     return task.name.toLowerCase().includes(filter.toLowerCase())
   })
 
+  const handleEdit = (index: number) => {
+    setTask(tasks?.at(index) || emptyTask)
+  }
+
   const handleDelete = async (id) => {
     try {
       const {data, error} = await supabase.from('tasks').delete().eq('id', id).select()
       if (error) throw error
 
-      if (data) {
-        setTasks(
-          tasks.filter((task) => {
-            return task.id !== data[0].id
-          })
-        )
-      }
+      fetch()
     } catch (error) {
       console.log(error)
-      toast({
-        title: 'Błąd.',
-        description: 'Nie można usunąć zadania.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      })
-      setTasks(null)
     }
   }
-
-  const {isOpen, onOpen, onClose} = useDisclosure()
 
   return (
     <Center>
@@ -101,20 +96,26 @@ const Tasks = () => {
             ml={4}
             onClick={onOpen}
           />
-          <AddTaskModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} setTasks={setTasks} />
+          {user?.company && (
+            <TaskEditorModal
+              item={task}
+              company={user?.company}
+              open={isOpen}
+              onClose={onClose}
+              onComplete={fetch}
+            />
+          )}
         </Flex>
         {tasksFiltered &&
-          tasksFiltered.map((task, id) => (
-            <SingleTask task={task} setTasks={setTasks} id={id} key={id} handleDelete={handleDelete} />
+          tasksFiltered.map((task, i) => (
+            <SingleTask key={i} task={task} onEdit={handleEdit} onDelete={handleDelete} />
           ))}
       </Stack>
     </Center>
   )
 }
 
-const SingleTask = ({task, setTasks, handleDelete}) => {
-  const {isOpen, onOpen, onClose} = useDisclosure()
-
+const SingleTask = ({task, onEdit, onDelete}) => {
   return (
     <Box bg="gray.700" rounded="3xl" boxShadow="2xl">
       <Accordion allowToggle m={1}>
@@ -135,18 +136,11 @@ const SingleTask = ({task, setTasks, handleDelete}) => {
             <Menu>
               <MenuButton as={IconButton} icon={<HamburgerIcon />} variant="ghost" size="lg" mr={3} />
               <MenuList>
-                <MenuItem icon={<EditIcon />} onClick={onOpen}>
+                <MenuItem icon={<EditIcon />} onClick={onEdit}>
                   Edytuj zadanie
                 </MenuItem>
-                <EditTaskModal
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  onOpen={onOpen}
-                  task={task}
-                  setTasks={setTasks}
-                />
 
-                <MenuItem icon={<DeleteIcon />} onClick={() => handleDelete(task.id)}>
+                <MenuItem icon={<DeleteIcon />} onClick={() => onDelete(task.id)}>
                   Usuń zadanie
                 </MenuItem>
               </MenuList>
