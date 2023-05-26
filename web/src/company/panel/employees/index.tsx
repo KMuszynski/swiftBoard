@@ -18,7 +18,7 @@ import {selectProfile} from '@/auth/state'
 import {useListQuery} from '@/common/hooks'
 import {useAppSelector} from '@/store'
 
-import AddTaskUser from './add-task'
+import AddTaskUser from './add-task-to-user'
 import EmployeeEditorModal from './editor-modal'
 
 const Employees = () => {
