@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {Button, Flex, FormControl, FormLabel, Input, Stack, Textarea} from '@chakra-ui/react'
+import {Box, Button, Flex, FormControl, FormLabel, Input, Stack, Textarea} from '@chakra-ui/react'
 import {useNavigate} from 'react-router-dom'
 
 import {Database} from '@/api/database.types'
@@ -39,32 +39,30 @@ const CompanyEditorForm = ({item}: {item: Company | null}) => {
   })
 
   return (
-    <Stack>
-      <FormControl isDisabled={loading} as={Stack} align="center">
-        <FormLabel mb={1} fontWeight={600}>
-          Logo
-        </FormLabel>
-        <ImageUpload width={200} height={200} editing={true} value={image} onChange={setImage} />
-      </FormControl>
-      <FormControl isDisabled={loading}>
-        <FormLabel>Nazwa</FormLabel>
-        <Input name="name" value={input.name ?? ''} onChange={handleInputChange} />
-      </FormControl>
-      <FormControl isDisabled={loading}>
-        <FormLabel>Opis</FormLabel>
-        <Textarea
-          name="description"
-          value={input.description ?? ''}
-          onChange={handleInputChange}
-          minH={item ? '350px' : '150px'}
-        />
-      </FormControl>
-      <Flex justify="flex-end">
-        <Button colorScheme="blue" onClick={handleUpsert} isLoading={loading}>
-          Zapisz
-        </Button>
-      </Flex>
-    </Stack>
+    <Flex gap={10} justify="center" align="center" pt={28}>
+      <ImageUpload width={420} height={420} editing={true} value={image} onChange={setImage} />
+      <Box>
+        <FormControl isDisabled={loading} w="2xl" pb={3}>
+          <FormLabel fontSize="xl">Nazwa</FormLabel>
+          <Input name="name" value={input.name ?? ''} onChange={handleInputChange} fontSize="lg" />
+        </FormControl>
+        <FormControl isDisabled={loading} w="2xl" pb={3}>
+          <FormLabel fontSize="xl">Opis</FormLabel>
+          <Textarea
+            fontSize="md"
+            name="description"
+            value={input.description ?? ''}
+            onChange={handleInputChange}
+            minH={item ? '350px' : '150px'}
+          />
+        </FormControl>
+        <Flex justify="flex-end">
+          <Button colorScheme="blue" onClick={handleUpsert} isLoading={loading}>
+            Zapisz
+          </Button>
+        </Flex>
+      </Box>
+    </Flex>
   )
 }
 

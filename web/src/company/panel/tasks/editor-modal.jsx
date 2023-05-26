@@ -23,45 +23,42 @@ import {useAppSelector} from '@/store'
 
 import fetchTasks from './fetching-tasks'
 
-const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
+const EditTaskModal = ({isOpen, onOpen, onClose, setTasks, task}) => {
   const initialRef = React.useRef(null)
   const toast = useToast()
 
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [maxPoints, setMaxPoints] = useState('')
-  const [minPoints, setMinPoints] = useState('')
+  const [name, setName] = useState(task.name)
+  const [description, setDescription] = useState(task.description)
+  const [maxPoints, setMaxPoints] = useState(task.max_points)
+  const [minPoints, setMinPoints] = useState(task.min_points)
 
   const user = useAppSelector(selectProfile)
 
   const handleSubmit = async (e) => {
     const {data, error} = await supabase
       .from('tasks')
-      .insert([{company: user.company, name, description, max_points: maxPoints, min_points: minPoints}])
+      .update([{company: user.company, name, description, max_points: maxPoints, min_points: minPoints}])
+      .eq('id', task.id)
 
     if (error) {
       console.log(error)
       toast({
-        title: 'Zadanie nie dodane.',
-        description: 'Dodanie nowego zadania nie powiodło się.',
+        title: 'Zadanie nie zedytowane.',
+        description: 'Edycja zadania nie powiodła się.',
         status: 'error',
         duration: 5000,
         isClosable: true,
       })
     } else {
       toast({
-        title: 'Task dodany.',
-        description: 'Nowe zadanie został0 pomyślnie dodane.',
+        title: 'Zadanie zedytowane.',
+        description: 'Zadanie zostało pomyślnie edytowane.',
         status: 'success',
         duration: 5000,
         isClosable: true,
       })
       fetchTasks(setTasks, user.company)
       onClose()
-      setName('')
-      setDescription('')
-      setMaxPoints('')
-      setMinPoints('')
     }
   }
 
@@ -70,7 +67,7 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Dodaj nowe zadanie</ModalHeader>
+          <ModalHeader>Edytuj zadanie</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
@@ -128,4 +125,4 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
   )
 }
 
-export default AddTaskModal
+export default EditTaskModal

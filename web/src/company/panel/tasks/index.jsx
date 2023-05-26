@@ -31,6 +31,7 @@ import {selectProfile} from '@/auth/state'
 import {useAppSelector} from '@/store'
 
 import AddTaskModal from './add-modal'
+import EditTaskModal from './editor-modal'
 import fetchTasks from './fetching-tasks'
 
 const Tasks = () => {
@@ -49,12 +50,29 @@ const Tasks = () => {
     return task.name.toLowerCase().includes(filter.toLowerCase())
   })
 
-  const handleDelete = (name) => {
-    setTasks(
-      tasks.filter((task) => {
-        return task.name !== name
+  const handleDelete = async (id) => {
+    try {
+      const {data, error} = await supabase.from('tasks').delete().eq('id', id).select()
+      if (error) throw error
+
+      if (data) {
+        setTasks(
+          tasks.filter((task) => {
+            return task.id !== data[0].id
+          })
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: 'Błąd.',
+        description: 'Nie można usunąć zadania.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
       })
-    )
+      setTasks(null)
+    }
   }
 
   const {isOpen, onOpen, onClose} = useDisclosure()
@@ -87,14 +105,16 @@ const Tasks = () => {
         </Flex>
         {tasksFiltered &&
           tasksFiltered.map((task, id) => (
-            <SingleTask task={task} id={id} key={id} handleDelete={handleDelete} />
+            <SingleTask task={task} setTasks={setTasks} id={id} key={id} handleDelete={handleDelete} />
           ))}
       </Stack>
     </Center>
   )
 }
 
-const SingleTask = ({task, handleDelete}) => {
+const SingleTask = ({task, setTasks, handleDelete}) => {
+  const {isOpen, onOpen, onClose} = useDisclosure()
+
   return (
     <Box bg="gray.700" rounded="3xl" boxShadow="2xl">
       <Accordion allowToggle m={1}>
@@ -115,10 +135,18 @@ const SingleTask = ({task, handleDelete}) => {
             <Menu>
               <MenuButton as={IconButton} icon={<HamburgerIcon />} variant="ghost" size="lg" mr={3} />
               <MenuList>
-                <MenuItem icon={<EditIcon />} onClick={null}>
+                <MenuItem icon={<EditIcon />} onClick={onOpen}>
                   Edytuj zadanie
                 </MenuItem>
-                <MenuItem icon={<DeleteIcon />} onClick={() => handleDelete(task.name)}>
+                <EditTaskModal
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  onOpen={onOpen}
+                  task={task}
+                  setTasks={setTasks}
+                />
+
+                <MenuItem icon={<DeleteIcon />} onClick={() => handleDelete(task.id)}>
                   Usuń zadanie
                 </MenuItem>
               </MenuList>

@@ -4,7 +4,11 @@ import {useAppSelector} from '@/store'
 
 const fetchTasks = async (setTasks, company) => {
   try {
-    const {data, error} = await supabase.from('tasks').select().eq('company', company)
+    const {data, error} = await supabase
+      .from('tasks')
+      .select()
+      .eq('company', company)
+      .order('created_at', {ascending: false})
     if (error) throw error
 
     if (data) setTasks(data)
@@ -12,7 +16,7 @@ const fetchTasks = async (setTasks, company) => {
     console.log(error)
     toast({
       title: 'Błąd.',
-      description: 'Nie można pobrać tasków.',
+      description: 'Nie można pobrać zadań.',
       status: 'error',
       duration: 5000,
       isClosable: true,
