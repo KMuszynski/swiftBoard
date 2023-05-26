@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {Heading, Stack} from '@chakra-ui/react'
+import {Box, Flex, HStack, Heading, Text} from '@chakra-ui/react'
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import ReactMarkdown from 'react-markdown'
 import {useParams} from 'react-router-dom'
@@ -8,6 +8,7 @@ import {useParams} from 'react-router-dom'
 import {EmployeeTask} from '@/api/models'
 import LoadingView from '@/common/components/loading-view'
 import {useGetQuery} from '@/common/hooks'
+import {formatTimestamp} from '@/utils/string'
 
 const TaskViewer = () => {
   const {id} = useParams()
@@ -22,18 +23,29 @@ const TaskViewer = () => {
   )
 
   return (
-    <Stack w="100%" p={6} bg="gray.200" color="black" h="100vh" overflowY="auto">
+    <Flex direction="column" w="100%" h="100vh" bg="gray.200" align="center">
       {loading ? (
         <LoadingView />
       ) : (
         <>
-          <Heading>{task?.name}</Heading>
-          {task?.description && (
-            <ReactMarkdown children={task.description} components={ChakraUIRenderer()} skipHtml />
-          )}
+          <HStack px={4} py={2} bg="gray.900" boxShadow="lg" w="100%" justify="space-between">
+            <Heading size="lg">{task?.name}</Heading>
+            <Heading size="lg">{task?.points}pkt</Heading>
+          </HStack>
+          <Flex p={6} direction="column" overflowY="auto" w="100%" align="center" fontSize="lg" color="black">
+            {task?.assigned_at && <Text>Przypisane: {formatTimestamp(task.assigned_at)}</Text>}
+            {task?.deadline && <Text fontFamily="'Roboto'">Deadline: {formatTimestamp(task.deadline)}</Text>}
+            <Box maxW="container.md">
+              {task?.description ? (
+                <ReactMarkdown children={task.description} components={ChakraUIRenderer()} skipHtml />
+              ) : (
+                <Text>Zadanie nie ma opisu :O</Text>
+              )}
+            </Box>
+          </Flex>
         </>
       )}
-    </Stack>
+    </Flex>
   )
 }
 

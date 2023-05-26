@@ -25,6 +25,8 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
+import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
+import ReactMarkdown from 'react-markdown'
 
 import {Task} from '@/api/models'
 import {selectProfile} from '@/auth/state'
@@ -170,7 +172,9 @@ const SingleTask = ({task, onEdit, onDelete}: SingleTaskProps) => {
               </MenuList>
             </Menu>
           </Flex>
-          <AccordionPanel pb={2}>{task.description}</AccordionPanel>
+          <AccordionPanel pb={2}>
+            <ReactMarkdown children={task.description} components={ChakraUIRenderer()} skipHtml />
+          </AccordionPanel>
         </AccordionItem>
       </Accordion>
     </Box>

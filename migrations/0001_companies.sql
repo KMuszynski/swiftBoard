@@ -83,46 +83,6 @@ begin
 end
 $$;
 
-create or replace function "upsert_company_user"(
-  "company_id" uuid,
-  "email" text,
-  "role" company_user_role,
-  "responsibilities" text[],
-  "requirements" text[],
-  "position" uuid default null
-)
-  returns jsonb
-  language plpgsql
-  security definer
-as $$
-begin
-  insert into "company_users" (
-    "user",
-    "company",
-    "role",
-    "position",
-    "responsibilities",
-    "requirements"
-  ) values (
-    (select "id" from "users" where users."email" = upsert_company_user."email"),
-    "company_id",
-    "role",
-    "position",
-    "responsibilities",
-    "requirements"
-  ) on conflict ("user", "company") do update set
-    "user" = excluded."user",
-    "company" = excluded."company",
-    "role" = excluded."role",
-    "position" = excluded."position",
-    "responsibilities" = excluded."responsibilities",
-    "requirements" = excluded."requirements",
-    "updated_at" = now();
-
-  return jsonb_build_object('success', true);
-end
-$$;
-
 drop view if exists user_profile;
 create view user_profile as
 select
@@ -172,7 +132,9 @@ left join "company_positions" cp on cp."id" = cu."position"
 left join lateral(
   select array_agg(ut."status") as "task_statuses"
   from "user_tasks" ut
+  inner join "tasks" t on t."id" = ut."task"
   where ut."user" = cu."user"
+  and t."company" = cu."company"
 ) ut on true;
 
 create view "company_documents_signed" as

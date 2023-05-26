@@ -1,35 +1,56 @@
 import React, {useState} from 'react'
 
-import {FormControl, FormLabel, Input, Select} from '@chakra-ui/react'
+import {FormControl, FormLabel, Input} from '@chakra-ui/react'
+import Select, {SingleValue} from 'react-select'
 
 import {supabase} from '@/api'
-import {Task} from '@/api/models'
 import {selectProfile} from '@/auth/state'
 import EditorModal from '@/common/components/editor-modal'
-import {useListQuery, useLoadingState} from '@/common/hooks'
+import {useLoadingState} from '@/common/hooks'
 import {useAppSelector} from '@/store'
-import {CommonModalProps} from '@/utils/types'
+import {selectStyles} from '@/theme/components/select'
+import {CommonModalProps, SelectOption} from '@/utils/types'
 
-const AssignTaskModal = ({open, onClose, userID}: CommonModalProps & {userID: string}) => {
+const AssignTaskModal = ({userID, open, onClose, onComplete}: CommonModalProps & {userID: string}) => {
   const user = useAppSelector(selectProfile)
-  const [tasks, fetchingTasks] = useListQuery<Task>(
-    React.useMemo(
-      () => ({
-        from: 'tasks',
-        order: ['created_at'],
-        match: {company: user?.company || ''},
-      }),
-      [user]
-    )
-  )
 
   const [deadline, setDeadline] = useState('')
   const [selectedTask, setSelectedTask] = useState('')
 
+  React.useEffect(() => {
+    setDeadline('')
+    setSelectedTask('')
+  }, [open])
+
+  const [tasks, setTasks] = useState<SelectOption[]>([])
+  const [fetchTasks, fetchingTasks] = useLoadingState(
+    React.useCallback(async () => {
+      if (!user?.company || !userID) return
+
+      const {data, error} = await supabase.rpc('get_user_assignable_tasks', {
+        company_id: user.company,
+        user_id: userID,
+      })
+      if (error) throw error
+
+      setTasks(data?.map((t) => ({value: t.id, label: t.name})) || [])
+    }, [userID, user])
+  )
+  React.useEffect(() => {
+    fetchTasks()
+  }, [userID])
+
+  const handleTaskChange = React.useCallback((v: SingleValue<SelectOption>) => {
+    setSelectedTask(v?.value ?? '')
+  }, [])
+
   const [handleSubmit, loading] = useLoadingState(
     React.useCallback(async () => {
-      const {error} = await supabase.from('user_tasks').insert([{task: selectedTask, deadline, user: userID}])
+      const {error} = await supabase
+        .from('user_tasks')
+        .insert({user: userID, task: selectedTask, deadline: deadline || null})
       if (error) throw error
+      onComplete && onComplete()
       onClose()
     }, [userID, selectedTask, deadline]),
     {
@@ -46,21 +67,17 @@ const AssignTaskModal = ({open, onClose, userID}: CommonModalProps & {userID: st
       onSubmit={handleSubmit}
       loading={loading}
     >
-      <FormLabel>Wybierz zadanie</FormLabel>
       <FormControl mt={4}>
+        <FormLabel>Wybierz zadanie</FormLabel>
         <Select
-          variant="filled"
-          value={selectedTask}
-          onChange={(e) => setSelectedTask(e.target.value)}
-          placeholder="wybierz zadanie"
-          isDisabled={fetchingTasks || loading}
-        >
-          {tasks?.map((task, i) => (
-            <option key={i} value={task.id}>
-              {task.name}
-            </option>
-          ))}
-        </Select>
+          placeholder="Zadanie"
+          value={tasks.filter((s) => s.value === selectedTask)}
+          options={tasks}
+          onChange={handleTaskChange}
+          styles={selectStyles}
+          isDisabled={loading}
+          isLoading={fetchingTasks}
+        />
       </FormControl>
       <FormControl mt={4}>
         <FormLabel>Deadline</FormLabel>

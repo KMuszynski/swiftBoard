@@ -353,6 +353,16 @@ export interface Database {
         }
         Returns: string
       }
+      get_user_assignable_tasks: {
+        Args: {
+          user_id: string
+          company_id: string
+        }
+        Returns: {
+          id: string
+          name: string
+        }[]
+      }
       get_user_role: {
         Args: {
           user_id: string

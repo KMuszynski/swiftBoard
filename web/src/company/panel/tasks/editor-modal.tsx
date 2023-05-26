@@ -1,15 +1,21 @@
 import React from 'react'
 
 import {
+  Box,
   FormControl,
   FormLabel,
   HStack,
   Input,
   NumberInput,
   NumberInputField,
+  Spacer,
   Stack,
+  Switch,
+  Text,
   Textarea,
 } from '@chakra-ui/react'
+import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
+import ReactMarkdown from 'react-markdown'
 
 import {Database} from '@/api/database.types'
 import {Task} from '@/api/models'
@@ -44,6 +50,8 @@ const TaskEditorModal = ({
       onClose,
     })
 
+  const [previewDescription, setPreviewDescription] = React.useState(false)
+
   const handleMaxPointsChange = React.useCallback(
     (v) => handleCustomInputChange({max_points: v ? +v : undefined}),
     [handleCustomInputChange]
@@ -74,8 +82,25 @@ const TaskEditorModal = ({
           <Input name="name" value={input.name} onChange={handleInputChange} />
         </FormControl>
         <FormControl>
-          <FormLabel>Opis</FormLabel>
-          <Textarea name="description" minH="300px" value={input.description} onChange={handleInputChange} />
+          <HStack mb={2}>
+            <Text>Opis</Text>
+            <Spacer />
+            <Text>Edytowanie</Text>
+            <Switch isChecked={previewDescription} onChange={() => setPreviewDescription((prev) => !prev)} />
+            <Text>Podgląd</Text>
+          </HStack>
+          {previewDescription ? (
+            <Box p={2} rounded="md" border="1px solid" borderColor="whiteAlpha.300">
+              <ReactMarkdown children={input.description} components={ChakraUIRenderer()} skipHtml />
+            </Box>
+          ) : (
+            <Textarea
+              name="description"
+              minH="300px"
+              value={input.description}
+              onChange={handleInputChange}
+            />
+          )}
         </FormControl>
         <FormControl>
           <FormLabel>Liczba punktów</FormLabel>

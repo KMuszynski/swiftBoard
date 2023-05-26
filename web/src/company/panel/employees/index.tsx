@@ -60,7 +60,7 @@ const Employees = () => {
   const handleAssignTask = React.useCallback(
     (id: string) => {
       setEmployee(employees.find((e) => e.id === id) ?? emptyEmployee)
-      editorModal.onOpen()
+      assignTaskModal.onOpen()
     },
     [employees]
   )
@@ -126,9 +126,10 @@ const Employees = () => {
         onClose={editorModal.onClose}
       />
       <AssignTaskModal
+        userID={employee.id ?? ''}
         open={assignTaskModal.isOpen}
         onClose={assignTaskModal.onClose}
-        userID={employee.id ?? ''}
+        onComplete={fetch}
       />
       <DeleteResourceDialog
         table="company_users"

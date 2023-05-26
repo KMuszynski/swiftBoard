@@ -67,4 +67,21 @@ or ut."user" in ( -- admin can view employees' tasks
   where cu."user" = auth.uid() and cu."role" = 'admin'
 );
 
+create or replace function "get_user_assignable_tasks"("user_id" uuid, "company_id" uuid)
+  returns table("id" uuid, "name" text)
+  language plpgsql
+  security definer
+as $$
+begin
+  return query 
+  select
+    distinct t."id",
+    t."name"
+  from "tasks" t
+  where t."company" = "company_id" and t."id" not in (
+    select "task" from "user_tasks" where "user" = "user_id"
+  );
+end
+$$;
+
 -- migrate:down

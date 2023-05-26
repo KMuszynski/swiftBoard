@@ -33,8 +33,8 @@ const theme = extendTheme({
     glowBlue: '0px 0px 18px 0px rgba(58, 197, 253, 0.82)',
   },
   fonts: {
-    heading: `'Open Sans', sans-serif`,
-    body: `'Raleway', sans-serif`,
+    heading: `'Roboto', sans-serif`,
+    body: `'Open-sans', sans-serif`,
   },
 })
 
