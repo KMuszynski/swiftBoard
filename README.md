@@ -61,3 +61,4 @@ After logging in / creating your account on the website, run the following SQL q
 ```sql
 update "users" set "role" = 'admin' where 'email' = 'youremail'
 ```
+#ssss
