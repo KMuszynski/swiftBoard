@@ -31,13 +31,16 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
   const [description, setDescription] = useState('')
   const [maxPoints, setMaxPoints] = useState('')
   const [minPoints, setMinPoints] = useState('')
+  const [deadline, setDeadline] = useState('')
 
   const user = useAppSelector(selectProfile)
 
   const handleSubmit = async (e) => {
     const {data, error} = await supabase
       .from('tasks')
-      .insert([{company: user.company, name, description, max_points: maxPoints, min_points: minPoints}])
+      .insert([
+        {company: user.company, name, description, max_points: maxPoints, min_points: minPoints, deadline},
+      ])
 
     if (error) {
       console.log(error)
@@ -50,8 +53,8 @@ const AddTaskModal = ({isOpen, onOpen, onClose, setTasks}) => {
       })
     } else {
       toast({
-        title: 'Task dodany.',
-        description: 'Nowe zadanie został0 pomyślnie dodane.',
+        title: 'Zadanie dodane.',
+        description: 'Nowe zadanie zostało pomyślnie dodane.',
         status: 'success',
         duration: 5000,
         isClosable: true,

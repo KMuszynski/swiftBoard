@@ -18,6 +18,7 @@ import {selectProfile} from '@/auth/state'
 import {useListQuery} from '@/common/hooks'
 import {useAppSelector} from '@/store'
 
+import AddTaskUser from './add-task'
 import EmployeeEditorModal from './editor-modal'
 
 const Employees = () => {
@@ -78,6 +79,8 @@ const Employees = () => {
 }
 
 const Row = ({item}: {item: CompanyEmployee}) => {
+  const {isOpen, onOpen, onClose} = useDisclosure()
+
   const finishedTasks = React.useMemo(
     () => item.task_statuses?.filter((s) => s !== 'assigned').length || 0,
     [item]
@@ -93,9 +96,10 @@ const Row = ({item}: {item: CompanyEmployee}) => {
       </Td>
       <Td isNumeric>{item.points}</Td>
       <Td>
-        <Button display="flex" m="auto" size="sm" fontSize="4xl">
+        <Button display="flex" m="auto" size="sm" fontSize="4xl" onClick={onOpen}>
           +
         </Button>
+        <AddTaskUser isOpen={isOpen} onClose={onClose} userId={item.id} />
       </Td>
     </Tr>
   )

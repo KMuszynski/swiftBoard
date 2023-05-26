@@ -31,13 +31,16 @@ const EditTaskModal = ({isOpen, onOpen, onClose, setTasks, task}) => {
   const [description, setDescription] = useState(task.description)
   const [maxPoints, setMaxPoints] = useState(task.max_points)
   const [minPoints, setMinPoints] = useState(task.min_points)
+  const [deadline, setDeadline] = useState(task.deadline)
 
   const user = useAppSelector(selectProfile)
 
   const handleSubmit = async (e) => {
     const {data, error} = await supabase
       .from('tasks')
-      .update([{company: user.company, name, description, max_points: maxPoints, min_points: minPoints}])
+      .update([
+        {company: user.company, name, description, max_points: maxPoints, min_points: minPoints, deadline},
+      ])
       .eq('id', task.id)
 
     if (error) {
