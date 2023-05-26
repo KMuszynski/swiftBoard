@@ -83,9 +83,11 @@ const useSupabaseUpsert = <T extends AnyObject>({
 
       const values: AnyObject = {}
       Object.entries(covertedInput).forEach(([k, v]) => {
-        values[k] = v === '' ? null : v // filtering out empty strings
+        values[k] = v === '' ? undefined : v // filtering out empty strings
       })
       values.id = covertedInput.id || undefined
+
+      console.log(values)
 
       let query
       if (customRPC) query = supabase.rpc(customRPC, values as any)

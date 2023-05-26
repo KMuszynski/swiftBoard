@@ -14,13 +14,16 @@ import {
   ModalOverlay,
   Select,
 } from '@chakra-ui/react'
+import {useToast} from '@chakra-ui/react'
 
+import {supabase} from '@/api'
 import {selectProfile} from '@/auth/state'
 import {useAppSelector} from '@/store'
 
 import fetchTasks from '../tasks/fetching-tasks'
 
 const AddTaskUser = ({isOpen, onClose, userId}) => {
+  const toast = useToast()
   const user = useAppSelector(selectProfile)
 
   const [deadline, setDeadline] = useState('')

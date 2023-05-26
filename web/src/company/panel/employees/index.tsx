@@ -90,7 +90,7 @@ const Row = ({item}: {item: CompanyEmployee}) => {
       <Td>{item.full_name}</Td>
       <Td>{item.email}</Td>
       <Td>{item.role}</Td>
-      <Td>{item.position}</Td>
+      <Td>{item.position_name}</Td>
       <Td isNumeric>
         {finishedTasks}/{(item.task_statuses?.length || 0) - finishedTasks}
       </Td>
