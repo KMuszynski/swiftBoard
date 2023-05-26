@@ -14,6 +14,7 @@ const theme = extendTheme({
       '::-webkit-scrollbar': {
         cursor: 'auto',
         width: '0.5rem',
+        h: '0.5rem',
       },
       '::-webkit-scrollbar-thumb': {
         cursor: 'pointer !important',
@@ -25,6 +26,7 @@ const theme = extendTheme({
       },
       '::-webkit-scrollbar-track': {
         bg: 'blackAlpha.600',
+        borderRadius: 'full',
       },
     },
   },
@@ -33,8 +35,8 @@ const theme = extendTheme({
     glowBlue: '0px 0px 18px 0px rgba(58, 197, 253, 0.82)',
   },
   fonts: {
-    heading: `'Roboto', sans-serif`,
-    body: `'Open-sans', sans-serif`,
+    heading: `'Open Sans', sans-serif`,
+    body: `'Roboto', sans-serif`,
   },
 })
 

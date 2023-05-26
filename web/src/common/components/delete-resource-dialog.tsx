@@ -12,11 +12,12 @@ import {
 } from '@chakra-ui/react'
 
 import {supabase} from '@/api'
+import {Database} from '@/api/database.types'
 import {useLoadingState} from '@/common/hooks'
 import {CommonModalProps} from '@/utils/types'
 
 type Props = CommonModalProps & {
-  table?: string
+  table?: keyof Database['public']['Tables']
   id?: string | number
   onDelete?: () => Promise<void>
   headerText?: string

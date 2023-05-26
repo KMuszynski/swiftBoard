@@ -1,15 +1,11 @@
 import SideMenu, {SideMenuItem} from '@/common/components/side-menu'
-import {EMPLOYEE_CALENDAR, EMPLOYEE_CHAT, EMPLOYEE_DOCUMENTS, EMPLOYEE_PANEL} from '@/router/paths'
+import {EMPLOYEE_CALENDAR, EMPLOYEE_DOCUMENTS, EMPLOYEE_PANEL} from '@/router/paths'
 
 const items: SideMenuItem[] = [
   {
     label: 'Dashboard',
     link: EMPLOYEE_PANEL,
     end: true,
-  },
-  {
-    label: 'Wirtualny asystent',
-    link: EMPLOYEE_CHAT,
   },
   {
     label: 'Dokumenty',

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {Box, Flex, HStack, Heading, Text} from '@chakra-ui/react'
+import {Box, Flex, HStack, Heading, Stack, Text} from '@chakra-ui/react'
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import ReactMarkdown from 'react-markdown'
 import {useParams} from 'react-router-dom'
@@ -33,8 +33,12 @@ const TaskViewer = () => {
             <Heading size="lg">{task?.points}pkt</Heading>
           </HStack>
           <Flex p={6} direction="column" overflowY="auto" w="100%" align="center" fontSize="lg" color="black">
-            {task?.assigned_at && <Text>Przypisane: {formatTimestamp(task.assigned_at)}</Text>}
-            {task?.deadline && <Text fontFamily="'Roboto'">Deadline: {formatTimestamp(task.deadline)}</Text>}
+            <Stack align="center" mb={4}>
+              {task?.assigned_at && <Text>Przypisane: {formatTimestamp(task.assigned_at)}</Text>}
+              {task?.deadline && (
+                <Text fontFamily="'Roboto'">Deadline: {formatTimestamp(task.deadline)}</Text>
+              )}
+            </Stack>
             <Box maxW="container.md">
               {task?.description ? (
                 <ReactMarkdown children={task.description} components={ChakraUIRenderer()} skipHtml />

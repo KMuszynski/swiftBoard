@@ -1,10 +1,10 @@
 import React from 'react'
 
-import {Select as ChakraSelect, FormControl, FormLabel, Input, Stack, Text} from '@chakra-ui/react'
+import {Select as ChakraSelect, FormControl, FormLabel, Stack, Text} from '@chakra-ui/react'
 import Select, {SingleValue} from 'react-select'
 
 import {Database} from '@/api/database.types'
-import {CompanyEmployee, User} from '@/api/models'
+import {CompanyEmployee, CompanyPosition, User} from '@/api/models'
 import EditorModal from '@/common/components/editor-modal'
 import {useEditorModalState, useListQuery} from '@/common/hooks'
 import {companyRoleItems, emptyEmployee} from '@/company/costants'
@@ -50,14 +50,30 @@ const EmployeeEditorModal = ({
       []
     )
   )
-
   const usersOptions: SelectOption[] = React.useMemo(
     () => users.map((u) => ({value: u.id, label: u.email})),
     [users]
   )
-
   const handleUserChange = React.useCallback(
     (v: SingleValue<SelectOption>) => v?.value && handleCustomInputChange({id: v.value}),
+    [handleCustomInputChange]
+  )
+
+  const [positions] = useListQuery<CompanyPosition>(
+    React.useMemo(
+      () => ({
+        from: 'company_positions',
+        order: ['name'],
+      }),
+      []
+    )
+  )
+  const positionsOptions: SelectOption[] = React.useMemo(
+    () => positions.map((p) => ({value: p.id, label: p.name})),
+    [positions]
+  )
+  const handlePositionChange = React.useCallback(
+    (v: SingleValue<SelectOption>) => v?.value && handleCustomInputChange({position_id: v.value}),
     [handleCustomInputChange]
   )
 
@@ -83,7 +99,14 @@ const EmployeeEditorModal = ({
         </FormControl>
         <FormControl isDisabled={loading}>
           <FormLabel>Stanowisko</FormLabel>
-          <Input name="position" value={input.position ?? ''} onChange={handleInputChange} />
+          <Select
+            placeholder="Stanowisko"
+            value={positionsOptions.filter((s) => s.value === input.position_id)}
+            options={positionsOptions}
+            onChange={handlePositionChange}
+            styles={selectStyles}
+            isDisabled={loading}
+          />
         </FormControl>
         <FormControl isDisabled={loading}>
           <FormLabel>Rola</FormLabel>

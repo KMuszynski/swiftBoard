@@ -33,7 +33,7 @@ const MotionBox = chakra(motion.div, {
 export const LoadingMessage = () => (
   <Flex w="100%" align="flex-end" gap={4}>
     <Icon as={SiOpenai} boxSize={8} />
-    <Flex bg="gray.900" p={4} rounded="10px 10px 10px 0" gap={1}>
+    <Flex bg="gray.800" p={4} rounded="10px 10px 10px 0" gap={1}>
       {Array.from(Array(3), (_, i) => (
         <MotionBox
           key={i}

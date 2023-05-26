@@ -11,7 +11,6 @@ export const REGISTER_COMAPNY = '/rejestracja-firmy'
 export const ADMIN_PANEL = '/panel-administratora'
 
 export const EMPLOYEE_PANEL = '/panel-pracownika'
-export const EMPLOYEE_CHAT = EMPLOYEE_PANEL + '/czat'
 export const EMPLOYEE_DOCUMENTS = EMPLOYEE_PANEL + '/dokumenty'
 export const EMPLOYEE_CALENDAR = EMPLOYEE_PANEL + '/kalendarz'
 export const EMPLOYEE_TASK = EMPLOYEE_PANEL + '/zadanie/:id'

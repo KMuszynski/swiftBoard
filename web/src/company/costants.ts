@@ -1,4 +1,4 @@
-import {Company, CompanyEmployee, CompanyRole, Task} from '@/api/models'
+import {Company, CompanyEmployee, CompanyPosition, CompanyRole, Task} from '@/api/models'
 
 export const emptyCompany: Company = {
   id: '',
@@ -39,4 +39,14 @@ export const emptyTask: Task = {
   max_points: 0,
   min_points: 0,
   name: '',
+}
+
+export const emptyPosition: CompanyPosition = {
+  id: '',
+  company: '',
+  created_at: '',
+  updated_at: '',
+  name: '',
+  requirements: [],
+  responsibilities: [],
 }
