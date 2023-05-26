@@ -121,7 +121,7 @@ const Chat = () => {
   )
 
   return (
-    <Flex w="100%" py={4} gap={6} h="100vh" direction="column">
+    <Flex  bg="gray.900"w="100%" py={4} gap={6} h="100vh" direction="column">
       <HStack px={4}>
         <Box flex={1}>
           <Select
