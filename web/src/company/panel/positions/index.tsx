@@ -33,7 +33,7 @@ const Positions = () => {
       () => ({
         from: 'company_positions',
         order: ['created_at'],
-        match: {company: user?.company || ''},
+        match: user?.company ? {company: user?.company} : undefined,
       }),
       [user]
     )

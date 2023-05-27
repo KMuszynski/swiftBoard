@@ -31,7 +31,7 @@ const TaskViewer = () => {
         {
           role: 'system',
           content:
-            'You are a helpful assistan. In the next message I will provide a text document, you should remember its contents, because the user will ask about it.',
+            'You are a helpful assistan. In the next message you will receive a text document, you should remember its contents, because the user will ask about it.',
         },
         {role: 'system', content: task?.description || ''},
         {role: 'assistant', content: `Witaj! Masz jakieś pytania do zadania: ${task?.name}?`},

@@ -84,7 +84,7 @@ const Chat = () => {
         body: JSON.stringify({
           model: 'gpt-3.5-turbo',
           messages: newPrompts,
-          max_tokens: 50,
+          max_tokens: 200,
         }),
       })
       const data = await response.json()

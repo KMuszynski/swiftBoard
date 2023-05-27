@@ -1,4 +1,4 @@
-import {Avatar, Divider, Flex, HStack, Spacer, Stack, Text} from '@chakra-ui/react'
+import {Avatar, Box, Divider, Flex, HStack, Spacer, Stack, Text} from '@chakra-ui/react'
 
 import {selectProfile} from '@/auth/state'
 import {useAppSelector} from '@/store'
@@ -11,8 +11,8 @@ import ToolsList from './tools-list'
 const EmployeeSidebar = () => {
   const user = useAppSelector(selectProfile)
   return !user ? null : (
-    <Stack p={4} spacing={6} w="100%" bg="rgba(23, 25, 35, 0.5)">
-      <HStack spacing={4}>
+    <Stack spacing={0} w="100%" bg="rgba(23, 25, 35, 0.5)">
+      <HStack p={4} spacing={4}>
         <Avatar size="md" src={user.avatar_url || undefined} />
         <Flex direction="column">
           <Text whiteSpace="nowrap">{user.full_name}</Text>
@@ -21,8 +21,8 @@ const EmployeeSidebar = () => {
           </Text>
         </Flex>
       </HStack>
-      <Stack overflowY="auto">
-        <Divider />
+      <Divider />
+      <Stack p={4} overflowY="auto">
         <UserMenu />
         <Divider />
         <TasksList />
@@ -30,7 +30,10 @@ const EmployeeSidebar = () => {
         <ToolsList />
       </Stack>
       <Spacer />
-      <SignOutButton />
+      <Divider />
+      <Box p={2} w="100%">
+        <SignOutButton />
+      </Box>
     </Stack>
   )
 }

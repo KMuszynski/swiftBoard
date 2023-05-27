@@ -46,7 +46,7 @@ const Tasks = () => {
       () => ({
         from: 'tasks',
         order: ['created_at'],
-        match: {company: user?.company || ''},
+        match: user?.company ? {company: user?.company} : undefined,
       }),
       [user]
     )

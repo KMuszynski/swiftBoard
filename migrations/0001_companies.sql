@@ -27,8 +27,8 @@ create table "company_positions" (
 
   "company" uuid not null references "companies"("id") on delete cascade,
   "name" text not null,
-  "responsibilities" text[] not null default '{}'::text[],
-  "requirements" text[] not null default '{}'::text[]
+  "responsibilities" text,
+  "requirements" text
 );
 
 create type company_user_role as enum ('admin', 'employee');
@@ -42,8 +42,8 @@ create table "company_users" (
   "updated_at" timestamptz not null default now(),
   "role" company_user_role not null default 'employee',
   "position" uuid references "company_positions"("id") on delete set null,
-  "responsibilities" text[] not null default '{}'::text[], -- extra
-  "requirements" text[] not null default '{}'::text[], -- extra
+  "responsibilities" text,
+  "requirements" text,
   "points" int not null default 0
 );
 

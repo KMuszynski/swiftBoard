@@ -35,7 +35,7 @@ const NavbarMenu = () => {
           <Avatar size="sm" src={user.avatar_url || undefined} />
         </HStack>
       </MenuButton>
-      <MenuList>
+      <MenuList zIndex="popover">
         <MenuItem as={Link} to={USER_PROFILE} isDisabled={loading}>
           Twoje konto
         </MenuItem>

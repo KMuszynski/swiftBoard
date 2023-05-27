@@ -77,7 +77,7 @@ const TasksList = () => {
               onChange={() => handleTaskStatusChange(t)}
             />
 
-            <Flex p={2} w="100%" as={Link} to={generatePath(EMPLOYEE_TASK, {id: t.id})}>
+            <Flex gap={2} p={2} w="100%" as={Link} to={generatePath(EMPLOYEE_TASK, {id: t.id})}>
               <Text>{t.name}</Text>
               <Spacer />
               <Text>{t.points}</Text>

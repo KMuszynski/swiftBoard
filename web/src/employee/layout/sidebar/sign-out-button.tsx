@@ -21,7 +21,7 @@ const SignOutButton = () => {
   )
 
   return (
-    <Button variant="outline" size="sm" onClick={handleSignOut} isLoading={loading}>
+    <Button w="100%" variant="outline" size="sm" onClick={handleSignOut} isLoading={loading}>
       Wyloguj się
     </Button>
   )

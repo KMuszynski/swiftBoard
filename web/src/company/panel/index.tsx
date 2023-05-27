@@ -1,5 +1,6 @@
 import {Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text} from '@chakra-ui/react'
 
+import CompanyCalendar from './calendar'
 import Documents from './documents'
 import Employees from './employees'
 import Info from './info'
@@ -39,7 +40,7 @@ const CompanyPanel = () => {
           <Text>Ankiety</Text>
         </TabPanel>
         <TabPanel>
-          <Text>Kalendarz</Text>
+          <CompanyCalendar />
         </TabPanel>
       </TabPanels>
     </Tabs>

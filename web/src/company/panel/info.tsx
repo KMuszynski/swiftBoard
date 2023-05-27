@@ -15,7 +15,7 @@ const CompanyInfo = () => {
     React.useMemo(
       () => ({
         from: 'company_info',
-        match: {id: user?.company || ''},
+        match: user?.company ? {id: user?.company} : undefined,
       }),
       [user]
     )

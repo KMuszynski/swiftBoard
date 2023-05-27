@@ -22,3 +22,8 @@ export type UpsertResponse = {
   error?: string
   id?: string
 }
+
+export type PGTimeRangeSlot = {
+  from: Date
+  to: Date
+}

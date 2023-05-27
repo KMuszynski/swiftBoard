@@ -64,8 +64,8 @@ export interface Database {
           created_at: string
           id: string
           name: string
-          requirements: string[]
-          responsibilities: string[]
+          requirements: string | null
+          responsibilities: string | null
           updated_at: string
         }
         Insert: {
@@ -73,8 +73,8 @@ export interface Database {
           created_at?: string
           id?: string
           name: string
-          requirements?: string[]
-          responsibilities?: string[]
+          requirements?: string | null
+          responsibilities?: string | null
           updated_at?: string
         }
         Update: {
@@ -82,8 +82,8 @@ export interface Database {
           created_at?: string
           id?: string
           name?: string
-          requirements?: string[]
-          responsibilities?: string[]
+          requirements?: string | null
+          responsibilities?: string | null
           updated_at?: string
         }
       }
@@ -93,8 +93,8 @@ export interface Database {
           created_at: string
           points: number
           position: string | null
-          requirements: string[]
-          responsibilities: string[]
+          requirements: string | null
+          responsibilities: string | null
           role: Database["public"]["Enums"]["company_user_role"]
           updated_at: string
           user: string
@@ -104,8 +104,8 @@ export interface Database {
           created_at?: string
           points?: number
           position?: string | null
-          requirements?: string[]
-          responsibilities?: string[]
+          requirements?: string | null
+          responsibilities?: string | null
           role?: Database["public"]["Enums"]["company_user_role"]
           updated_at?: string
           user: string
@@ -115,8 +115,8 @@ export interface Database {
           created_at?: string
           points?: number
           position?: string | null
-          requirements?: string[]
-          responsibilities?: string[]
+          requirements?: string | null
+          responsibilities?: string | null
           role?: Database["public"]["Enums"]["company_user_role"]
           updated_at?: string
           user?: string
@@ -277,8 +277,8 @@ export interface Database {
           points: number | null
           position_id: string | null
           position_name: string | null
-          requirements: string[] | null
-          responsibilities: string[] | null
+          requirements: string | null
+          responsibilities: string | null
           role: Database["public"]["Enums"]["company_user_role"] | null
           task_statuses: Database["public"]["Enums"]["task_status"][] | null
         }

@@ -29,7 +29,7 @@ const Documents = () => {
       () => ({
         from: 'company_documents_signed',
         order: ['name'],
-        match: {company: user?.company || ''},
+        match: user?.company ? {company: user?.company} : undefined,
       }),
       [user]
     )

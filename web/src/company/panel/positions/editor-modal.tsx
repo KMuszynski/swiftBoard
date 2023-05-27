@@ -1,4 +1,4 @@
-import {FormControl, FormLabel, Input, Stack, Text} from '@chakra-ui/react'
+import {FormControl, FormLabel, Input, Stack, Textarea} from '@chakra-ui/react'
 
 import {Database} from '@/api/database.types'
 import {CompanyPosition} from '@/api/models'
@@ -14,8 +14,8 @@ const inputToUpsertArgs = (
   company,
   id: input.id,
   name: input.name,
-  requirements: input.requirements || [],
-  responsibilities: input.responsibilities || [],
+  requirements: input.requirements || '',
+  responsibilities: input.responsibilities || '',
 })
 
 const PositionEditorModal = ({
@@ -50,20 +50,15 @@ const PositionEditorModal = ({
         </FormControl>
         <FormControl isDisabled={loading}>
           <FormLabel>Obowiązki</FormLabel>
-          {/* TODO: create a strings list input */}
-          <Stack>
-            {input.responsibilities.map((r, i) => (
-              <Text key={i}>{r}</Text>
-            ))}
-          </Stack>
+          <Textarea
+            name="responsibilities"
+            value={input.responsibilities ?? ''}
+            onChange={handleInputChange}
+          />
         </FormControl>
         <FormControl isDisabled={loading}>
           <FormLabel>Wymagania</FormLabel>
-          <Stack>
-            {input.requirements.map((r, i) => (
-              <Text key={i}>{r}</Text>
-            ))}
-          </Stack>
+          <Textarea name="requirements" value={input.requirements ?? ''} onChange={handleInputChange} />
         </FormControl>
       </Stack>
     </EditorModal>
