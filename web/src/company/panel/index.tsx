@@ -8,7 +8,7 @@ import Tasks from './tasks'
 
 const CompanyPanel = () => {
   return (
-    <Tabs isLazy position="relative" variant="unstyled" pt="2">
+    <Tabs isLazy position="relative" variant="unstyled" pt="2" w="100%">
       <TabList>
         <Tab>Informacje</Tab>
         <Tab>Pracownicy</Tab>

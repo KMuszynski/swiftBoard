@@ -1,48 +1,78 @@
 export const tools = [
   {
     id: '1',
-    name: 'GitHub',
-    description: `## Instrukcja obsługi GitHuba
+    name: 'System P1',
+    description: `# Instrukcje obsługi systemu P1
 
-GitHub jest platformą internetową służącą do hostowania kodu źródłowego oraz współpracy programistów. Poniżej znajduje się podstawowa instrukcja obsługi GitHuba, która pomoże Ci rozpocząć pracę z tą platformą.
+Abyś mógł efektywnie korzystać z systemu P1, przedstawiamy poniżej instrukcje obsługi. Przeczytaj je uważnie, abyś mógł płynnie pracować z naszym systemem informatycznym.
 
-### 1. Zakładanie konta
+## Logowanie do systemu
+1. Otwórz przeglądarkę internetową i przejdź do strony logowania systemu P1.
+2. W polu "Nazwa użytkownika" wpisz swoją unikalną nazwę użytkownika.
+3. W polu "Hasło" wpisz swoje hasło.
+4. Kliknij przycisk "Zaloguj się", aby uzyskać dostęp do systemu.
 
-1. Wejdź na stronę [GitHub](https://github.com) w przeglądarce internetowej.
-2. Kliknij przycisk "Sign up" lub "Załóż konto", jeśli korzystasz z polskiej wersji językowej.
-3. Wybierz plan cenowy (darmowy plan jest wystarczający dla większości użytkowników) i postępuj zgodnie z instrukcjami, aby utworzyć swoje konto.
+## Menu główne
+Po poprawnym zalogowaniu zostaniesz przekierowany do menu głównego. Menu to zawiera główne funkcje i moduły systemu. Oto kilka podstawowych opcji menu:
 
-### 2. Tworzenie repozytorium
+- **Rejestracja pacjenta**: Pozwala zarejestrować nowego pacjenta w systemie, wprowadzić jego dane osobowe, historię choroby itp.
+- **Wyszukiwanie pacjenta**: Umożliwia wyszukiwanie pacjenta w systemie na podstawie różnych kryteriów, takich jak nazwisko, numer PESEL itp.
+- **Planowanie wizyt**: Pozwala zaplanować terminy wizyt pacjentów i zarejestrować je w harmonogramie.
+- **Dokumentacja medyczna**: Moduł umożliwiający zarządzanie dokumentacją medyczną pacjentów, taką jak wyniki badań, diagnozy, recepty itp.
+- **Raporty i analizy**: Zapewnia dostęp do różnych raportów i analiz dotyczących działalności medycznej, statystyk, finansów itp.
 
-1. Po zalogowaniu się na swoje konto, kliknij przycisk "New" lub "Nowe" na stronie głównej.
-2. Nadaj nazwę swojemu repozytorium i opcjonalnie dodaj opis.
-3. Wybierz ustawienia dostępności repozytorium (publiczne lub prywatne).
-4. Zaznacz opcję "Initialize this repository with a README" lub "Zainicjuj to repozytorium plikiem README", aby utworzyć plik README.md.
+## Dodawanie danych pacjenta
+1. Kliknij opcję "Rejestracja pacjenta" z menu głównego.
+2. Wprowadź wymagane informacje, takie jak imię, nazwisko, data urodzenia, adres itp.
+3. Wprowadź dodatkowe informacje, takie jak historia medyczna, alergie, przeciwwskazania itp.
+4. Kliknij przycisk "Zapisz", aby dodać pacjenta do systemu.
 
-### 3. Klonowanie repozytorium
+## Wyszukiwanie pacjenta
+1. Kliknij opcję "Wyszukiwanie pacjenta" z menu głównego.
+2. Wprowadź kryteria wyszukiwania, takie jak nazwisko, numer PESEL, data urodzenia itp.
+3. Kliknij przycisk "Szukaj" lub naciśnij klawisz Enter, aby przeprowadzić wyszukiwanie.
+4. Wybierz pacjenta z wyników wyszukiwania, aby wyświetlić jego szczegółowe informacje.
 
-1. Skopiuj adres URL repozytorium (znajdziesz go na stronie repozytorium, klikając na przycisk "Code" lub "Kod").
-2. Otwórz terminal na swoim komputerze i przejdź do katalogu, w którym chcesz sklonować repozytorium.
-3. Wykonaj polecenie \`git clone <adres URL>\`, gdzie \`<adres URL>\` to skopiowany adres URL repozytorium.
-
-### 4. Dodawanie i zatwierdzanie zmian
-
-1. Otwórz projekt w swoim ulubionym edytorze kodu.
-2. Dokonaj zmian w plikach projektu.
-3. Po zakończeniu zmian, wróć do terminala.
-4. Wykonaj polecenie \`git status\`, aby sprawdzić zmodyfikowane pliki.
-5. Wykonaj polecenie \`git add <nazwa pliku>\` lub \`git add .\`, aby dodać zmodyfikowane pliki do indeksu.
-6. Wykonaj polecenie \`git commit -m "Opis zmian"\`, aby zatwierdzić zmiany w lokalnym repozytorium.
-
-### 5. Wysyłanie zmian na GitHuba
-
-1. Wykonaj polecenie \`git push\`, aby wysłać zmiany do zdalnego repozytorium na GitHubie.
-2. Po zakończeniu operacji, zmiany będą widoczne na stronie repozytorium GitHub.
-
-To tylko podstawowa instrukcja obsługi GitHuba. Platforma oferuje wiele funkcji i możliwości, takich jak zarządzanie gałęziami (branches), tworzenie problemów (issues) czy współ`,
+## Planowanie wizyt
+1. Wybierz opcję "Planowanie wizyt" z menu głównego.
+2. Wybierz datę i godzinę w`,
   },
   {
     id: '2',
+    name: 'Elektroniczne zwolnienia PZU',
+    description: `# Instrukcje obsługi systemu elektronicznych zwolnień lekarskich PZU
+
+Abyś mógł sprawnie korzystać z systemu elektronicznych zwolnień lekarskich PZU, przedstawiamy poniżej instrukcje obsługi. Przeczytaj je uważnie, abyś mógł wygodnie zarządzać zwolnieniami lekarskimi.
+
+## Logowanie do systemu
+1. Otwórz przeglądarkę internetową i przejdź do strony logowania systemu PZU.
+2. W polu "Nazwa użytkownika" wpisz swoją unikalną nazwę użytkownika.
+3. W polu "Hasło" wpisz swoje hasło.
+4. Kliknij przycisk "Zaloguj się", aby uzyskać dostęp do systemu.
+
+## Menu główne
+Po zalogowaniu zostaniesz przekierowany do menu głównego. Menu to zawiera główne funkcje i moduły systemu. Oto kilka podstawowych opcji menu:
+
+- **Wystawienie zwolnienia**: Pozwala na generowanie elektronicznego zwolnienia lekarskiego dla pacjenta.
+- **Przegląd zwolnień**: Umożliwia przeglądanie i zarządzanie istniejącymi zwolnieniami w systemie.
+- **Wyszukiwanie pacjenta**: Pozwala wyszukiwać pacjentów na podstawie różnych kryteriów, takich jak imię, nazwisko, numer PESEL itp.
+- **Raporty i statystyki**: Zapewnia dostęp do różnych raportów i analiz dotyczących wystawionych zwolnień lekarskich.
+
+## Wystawienie zwolnienia lekarskiego
+1. Wybierz opcję "Wystawienie zwolnienia" z menu głównego.
+2. Wprowadź dane pacjenta, takie jak imię, nazwisko, numer PESEL itp.
+3. Wybierz odpowiedni okres zwolnienia, wprowadzając datę rozpoczęcia i zakończenia.
+4. Wprowadź informacje medyczne dotyczące stanu pacjenta, diagnozy itp.
+5. Kliknij przycisk "Generuj", aby wygenerować elektroniczne zwolnienie lekarskie.
+
+## Przeglądanie i zarządzanie zwolnieniami
+1. Wybierz opcję "Przegląd zwolnień" z menu głównego.
+2. Wprowadź kryteria wyszukiwania, takie jak imię, nazwisko, numer PESEL pacjenta itp.
+3. Kliknij przycisk "Szukaj" lub naciśnij klawisz Enter, aby przeprowadzić wyszukiwanie.
+4. Wybierz zwolnienie z wyników, aby wyświetlić szczegóły i ewentualnie zarządzać nim (modyfikować dane, przedłużać, anulować itp.).`,
+  },
+  {
+    id: '3',
     name: 'Excel',
     description: `## Instrukcja obsługi Microsoft Excel
 
@@ -89,7 +119,7 @@ Microsoft Excel to popularny program do arkuszy kalkulacyjnych, który oferuje w
 1. Aby zapisać plik,`,
   },
   {
-    id: '3',
+    id: '4',
     name: 'Word',
     description: `## Instrukcja obsługi Microsoft Word
 

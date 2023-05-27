@@ -5,9 +5,11 @@ import Select, {SingleValue} from 'react-select'
 
 import {Database} from '@/api/database.types'
 import {CompanyEmployee, CompanyPosition, User} from '@/api/models'
+import {selectProfile} from '@/auth/state'
 import EditorModal from '@/common/components/editor-modal'
 import {useEditorModalState, useListQuery} from '@/common/hooks'
 import {companyRoleItems, emptyEmployee} from '@/company/costants'
+import {useAppSelector} from '@/store'
 import {selectStyles} from '@/theme/components/select'
 import {CommonModalProps, SelectOption} from '@/utils/types'
 
@@ -30,6 +32,7 @@ const EmployeeEditorModal = ({
   onClose,
   onComplete,
 }: CommonModalProps & {item: CompanyEmployee; company: string}) => {
+  const user = useAppSelector(selectProfile)
   const {input, handleInputChange, handleCustomInputChange, handleUpsert, loading} =
     useEditorModalState<CompanyEmployee>({
       item,
@@ -64,8 +67,9 @@ const EmployeeEditorModal = ({
       () => ({
         from: 'company_positions',
         order: ['name'],
+        match: {company: user?.company || ''},
       }),
-      []
+      [user]
     )
   )
   const positionsOptions: SelectOption[] = React.useMemo(

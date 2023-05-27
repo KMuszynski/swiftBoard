@@ -1,11 +1,12 @@
 import {Avatar, Flex, Icon, Text, chakra, shouldForwardProp} from '@chakra-ui/react'
+import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import {isValidMotionProp, motion} from 'framer-motion'
 import {SiOpenai} from 'react-icons/si'
+import ReactMarkdown from 'react-markdown'
 
+import {ChatMessage} from '@/api/models'
 import {selectProfile} from '@/auth/state'
 import {useAppSelector} from '@/store'
-
-import {ChatMessage} from '../types'
 
 export const Message = ({msg}: {msg: ChatMessage}) => {
   const user = useAppSelector(selectProfile)
@@ -19,9 +20,9 @@ export const Message = ({msg}: {msg: ChatMessage}) => {
   ) : (
     <Flex w="100%" align="flex-end" gap={2}>
       <Icon as={SiOpenai} boxSize={8} />
-      <Text bg="gray.800" px={4} py={2} rounded="10px 10px 10px 0">
-        {msg.content}
-      </Text>
+      <Flex direction="column" gap={2} px={4} py={2} bg="gray.800" rounded="10px 10px 10px 0">
+        <ReactMarkdown children={msg.content} components={ChakraUIRenderer()} skipHtml />
+      </Flex>
     </Flex>
   )
 }

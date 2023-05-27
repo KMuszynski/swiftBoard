@@ -2,7 +2,7 @@ import {ChevronLeftIcon} from '@chakra-ui/icons'
 import {Box, Flex, IconButton, Image, useDisclosure} from '@chakra-ui/react'
 import {Outlet} from 'react-router-dom'
 
-import Chat from '../chat'
+import Chat from '../../chat'
 import EmployeeSidebar from './sidebar'
 import gradientBg from '/gradient-bg-2.png'
 
@@ -26,7 +26,7 @@ const EmployeePanelLayout = () => {
         borderColor="whiteAlpha.600"
         right={isOpen ? 0 : '-487px'}
       >
-        <Flex zIndex={100} position="relative" align="center" pl={2} bg="gray.900">
+        <Flex zIndex={100} position="relative" align="center" pl={2} bg="gray.900" h="100vh">
           <Chat />
           <IconButton
             position="absolute"
