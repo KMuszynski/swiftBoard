@@ -23,7 +23,7 @@ const TaskViewer = () => {
   )
 
   return (
-    <Flex direction="column" w="100%" h="100vh" bg="gray.200" align="center">
+    <Flex direction="column" w="100%" h="100vh" bg="gray.700" align="center">
       {loading ? (
         <LoadingView />
       ) : (
@@ -32,7 +32,7 @@ const TaskViewer = () => {
             <Heading size="lg">{task?.name}</Heading>
             <Heading size="lg">{task?.points}pkt</Heading>
           </HStack>
-          <Flex p={6} direction="column" overflowY="auto" w="100%" align="center" fontSize="lg" color="black">
+          <Flex p={6} direction="column" overflowY="auto" w="100%" align="center" fontSize="lg" color="white">
             <Stack align="center" mb={4}>
               {task?.assigned_at && <Text>Przypisane: {formatTimestamp(task.assigned_at)}</Text>}
               {task?.deadline && (

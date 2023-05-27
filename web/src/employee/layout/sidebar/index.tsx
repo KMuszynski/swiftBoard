@@ -6,6 +6,7 @@ import {useAppSelector} from '@/store'
 import UserMenu from './menu'
 import SignOutButton from './sign-out-button'
 import TasksList from './tasks-list'
+import ToolsList from './tools-list'
 
 const EmployeeSidebar = () => {
   const user = useAppSelector(selectProfile)
@@ -20,10 +21,14 @@ const EmployeeSidebar = () => {
           </Text>
         </Flex>
       </HStack>
-      <Divider />
-      <UserMenu />
-      <Divider />
-      <TasksList />
+      <Stack overflowY="auto">
+        <Divider />
+        <UserMenu />
+        <Divider />
+        <TasksList />
+        <Divider />
+        <ToolsList />
+      </Stack>
       <Spacer />
       <SignOutButton />
     </Stack>

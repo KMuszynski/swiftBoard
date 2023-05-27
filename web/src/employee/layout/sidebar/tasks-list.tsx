@@ -1,37 +1,44 @@
 import React from 'react'
 
-import {Button, Checkbox, Flex, HStack, Skeleton, Spacer, Stack, Text} from '@chakra-ui/react'
+import {Checkbox, Flex, Skeleton, Spacer, Stack, Text} from '@chakra-ui/react'
 import {Link, generatePath, useParams} from 'react-router-dom'
 
 import {supabase} from '@/api'
 import {EmployeeTask} from '@/api/models'
+import {selectProfile} from '@/auth/state'
 import {useListQuery, useLoadingState} from '@/common/hooks'
 import {EMPLOYEE_TASK} from '@/router/paths'
+import {useAppSelector} from '@/store'
 
 const TasksList = () => {
+  const user = useAppSelector(selectProfile)
   const {id} = useParams()
   const [tasks, loading, fetch] = useListQuery<EmployeeTask>(
     React.useMemo(
       () => ({
         from: 'employee_tasks',
         order: ['status', 'deadline'],
+        match: {user: user?.id},
       }),
-      []
+      [user]
     )
   )
 
   const [handleTaskStatusChange, changingStatus] = useLoadingState(
-    React.useCallback(async (task?: EmployeeTask) => {
-      if (!task) return
+    React.useCallback(
+      async (task?: EmployeeTask) => {
+        if (!task) return
 
-      const status = task.status === 'completed' ? 'assigned' : 'completed'
-      const {error} = await supabase
-        .from('user_tasks')
-        .update({status, completed_at: status === 'completed' ? new Date().toUTCString() : undefined})
-        .match({task: task.id, user: task.user})
-      if (error) throw error
-      fetch()
-    }, [])
+        const status = task.status === 'completed' ? 'assigned' : 'completed'
+        const {error} = await supabase
+          .from('user_tasks')
+          .update({status, completed_at: status === 'completed' ? new Date().toUTCString() : undefined})
+          .match({task: task.id, user: task.user})
+        if (error) throw error
+        fetch()
+      },
+      [fetch]
+    )
   )
   console.log(tasks)
 
