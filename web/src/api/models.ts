@@ -14,3 +14,8 @@ export type Task = Database['public']['Tables']['tasks']['Row']
 export type UserTask = Database['public']['Tables']['user_tasks']['Row']
 
 export type EmployeeTask = Database['public']['Views']['employee_tasks']['Row']
+
+export type ChatMessage = {
+  role: 'user' | 'system' | 'assistant'
+  content: string
+}

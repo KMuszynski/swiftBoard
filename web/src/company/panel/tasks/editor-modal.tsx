@@ -68,7 +68,7 @@ const TaskEditorModal = ({
 
   return (
     <EditorModal
-      title={`${item ? 'Edytuj' : 'Dodaj'} zadanie`}
+      title={`${item?.id ? 'Edytuj' : 'Dodaj'} zadanie`}
       isOpen={open}
       onClose={onClose}
       onSubmit={handleUpsert}

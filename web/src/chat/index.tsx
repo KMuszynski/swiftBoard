@@ -5,18 +5,15 @@ import {Box, Flex, HStack, IconButton, Textarea, Tooltip} from '@chakra-ui/react
 import {IoSend} from 'react-icons/io5'
 import Select, {SingleValue} from 'react-select'
 
+import {ChatMessage} from '@/api/models'
 import {useLoadingState} from '@/common/hooks'
 import {OPENAI_API_KEY} from '@/constants'
+import {useAppDispatch, useAppSelector} from '@/store'
 import {selectStyles} from '@/theme/components/select'
 import {SelectOption} from '@/utils/types'
 
-import {ChatMessage} from '../types'
 import {LoadingMessage, Message} from './message'
-
-const startMessages: ChatMessage[] = [
-  {role: 'system', content: 'You are a helpful assistant.'},
-  {role: 'assistant', content: 'Witaj w SwiftBoard! Jak mogę ci dzisiaj pomóc?'},
-]
+import {selectPrompts, setPrompts} from './state'
 
 const chats = [
   {
@@ -40,8 +37,9 @@ const chats = [
 const Chat = () => {
   const textareaRef = React.useRef<HTMLTextAreaElement>(null)
 
-  const [messages, setMessages] = React.useState(startMessages)
-  const reversed = React.useMemo(() => [...messages].reverse(), [messages])
+  const prompts = useAppSelector(selectPrompts)
+  const dispatch = useAppDispatch()
+  const reversed = React.useMemo(() => [...prompts].reverse(), [prompts])
 
   const [input, setInput] = React.useState('')
 
@@ -73,8 +71,8 @@ const Chat = () => {
 
       if (!OPENAI_API_KEY) throw new Error('No OpenAI API Key')
 
-      const newMessages: ChatMessage[] = [...messages, {role: 'user', content: input}]
-      setMessages(newMessages)
+      const newPrompts: ChatMessage[] = [...prompts, {role: 'user', content: input}]
+      dispatch(setPrompts(newPrompts))
       setInput('')
 
       const response = await fetch('http://localhost:3000/api/v1/chat/completions', {
@@ -85,7 +83,7 @@ const Chat = () => {
         },
         body: JSON.stringify({
           model: 'gpt-3.5-turbo',
-          messages: newMessages,
+          messages: newPrompts,
           max_tokens: 50,
         }),
       })
@@ -98,8 +96,8 @@ const Chat = () => {
       const finishReason = data?.choices[0]?.finish_reason
       if (finishReason === 'length') msg += '...'
 
-      setMessages((prev) => [...prev, {role: 'assistant', content: msg}])
-    }, [input]),
+      dispatch(setPrompts([...newPrompts, {role: 'assistant', content: msg}]))
+    }, [dispatch, input, prompts]),
     {
       onErrorToast: 'Wysyłanie wiadomości nie powiodło się',
     }
@@ -121,7 +119,7 @@ const Chat = () => {
   )
 
   return (
-    <Flex w="100%" py={4} gap={6} h="100vh" direction="column">
+    <Flex w="100%" py={4} gap={6} h="100%" direction="column">
       <HStack px={4}>
         <Box flex={1}>
           <Select

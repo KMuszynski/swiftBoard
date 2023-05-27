@@ -5,12 +5,29 @@ import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import ReactMarkdown from 'react-markdown'
 import {useParams} from 'react-router-dom'
 
+import {setPrompts} from '@/chat/state'
+import {useAppDispatch} from '@/store'
+
 import {tools} from '../constants'
 
 const ToolViewer = () => {
   const {id} = useParams()
-
+  const dispatch = useAppDispatch()
   const tool = React.useMemo(() => tools.find((t) => t.id === id), [id])
+
+  React.useEffect(() => {
+    dispatch(
+      setPrompts([
+        {
+          role: 'system',
+          content:
+            'You are a helpful assistan. In the next message I will provide a text document, you should remember its contents, because the user will ask about it.',
+        },
+        {role: 'system', content: tool?.description || ''},
+        {role: 'assistant', content: `Witaj! Masz jakieś pytania do narzędzia: ${tool?.name}?`},
+      ])
+    )
+  }, [tool, dispatch])
 
   return (
     <Flex direction="column" w="100%" h="100vh" bg="gray.700" align="center">

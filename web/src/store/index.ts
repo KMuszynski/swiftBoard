@@ -5,10 +5,12 @@ import type {TypedUseSelectorHook} from 'react-redux'
 
 import {supabase} from '@/api'
 import authReducer, {fetchUser} from '@/auth/state'
+import chatReducer from '@/chat/state'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    chat: chatReducer,
   },
 })
 
