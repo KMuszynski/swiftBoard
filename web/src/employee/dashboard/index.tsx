@@ -11,12 +11,12 @@ const Dashboard = () => {
       Dashboard
     </Center>
     <Center mb={5} w='100%' textAlign='center' fontSize=''>
-    {user.full_name} <br/>{user.company_role ? (user.company_role) : ('DevOps')}
+    {user.full_name} <br/>{user.position ? (user.position) : ('No possition')}
     </Center>
     <Box mb={3}>
       Tasks Completed: {user.points ? user.points : 77}
     </Box>
-    <Progress height={6} value={(user.points ? user.points : 77)} />
+    <Progress height={6} value={(user.points ? user.points : 0)} />
     <Box color='green'>
       task 1 <br/>
       task 2
