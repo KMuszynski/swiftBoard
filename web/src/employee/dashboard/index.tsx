@@ -2,6 +2,8 @@ import { selectProfile } from '@/auth/state'
 import LoadingView from '@/common/components/loading-view'
 import { useAppSelector } from '@/store'
 import {Box, Center, Progress} from '@chakra-ui/react'
+import { Image } from '@chakra-ui/react'
+import { AspectRatio } from '@chakra-ui/react'
 
 const Dashboard = () => {
   const user = useAppSelector(selectProfile)
@@ -16,15 +18,10 @@ const Dashboard = () => {
     <Box mb={3}>
       Tasks Completed: {user.points ? user.points : 77}
     </Box>
-    <Progress height={6} value={(user.points ? user.points : 0)} />
-    <Box color='green'>
-      task 1 <br/>
-      task 2
-    </Box>
-    <Box color='red'>
-      task 3 <br/>
-      task 4
-    </Box>
+    <Progress height={6} value={(user.points ? user.points : 77)} />
+    <AspectRatio maxW='1000px' ratio={945/561}>
+  <Image boxSize={6} src='swiftboard-graph.png' alt='BarGraph' />
+  </AspectRatio>
   </Box>
 }
 
