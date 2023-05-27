@@ -92,7 +92,7 @@ const Employees = () => {
               <Th>E-mail</Th>
               <Th>Rola</Th>
               <Th>Pozycja</Th>
-              <Th isNumeric>Taski</Th>
+              <Th isNumeric>Zadania</Th>
               <Th isNumeric>Punkty</Th>
               <Th isNumeric>
                 <Button onClick={handleAdd}>Dodaj pracownika</Button>
@@ -167,7 +167,7 @@ const Row = ({item, onEdit, onAssignTask, onDelete}: RowProps) => {
       <Td>{item.role}</Td>
       <Td>{item.position_name}</Td>
       <Td isNumeric>
-        {finishedTasks}/{(item.task_statuses?.length || 0) - finishedTasks}
+        {finishedTasks}/{item.task_statuses?.length || 0}
       </Td>
       <Td isNumeric>{item.points}</Td>
       <Td isNumeric>
