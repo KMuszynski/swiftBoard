@@ -3,7 +3,7 @@ import {EMPLOYEE_CALENDAR, EMPLOYEE_DOCUMENTS, EMPLOYEE_PANEL} from '@/router/pa
 
 const items: SideMenuItem[] = [
   {
-    label: 'Dashboard',
+    label: 'Panel Główny',
     link: EMPLOYEE_PANEL,
     end: true,
   },
