@@ -57,15 +57,15 @@ select
   t."company",
   t."name",
   t."description",
-  t."document",
+  t."documents",
   get_remaining_task_points(ut."task", ut."user") as "points"
 from "user_tasks" ut
-inner join "tasks" t on t."id" = ut."task"
-where ut."user" = auth.uid()
-or ut."user" in ( -- admin can view employees' tasks
-  select cu."user" from "company_users" cu 
-  where cu."user" = auth.uid() and cu."role" = 'admin'
-);
+inner join "tasks" t on t."id" = ut."task";
+-- where ut."user" = auth.uid()
+-- or ut."user" in ( -- admin can view employees' tasks
+--   select cu."user" from "company_users" cu 
+--   where cu."user" = auth.uid() and cu."role" = 'admin'
+-- );
 
 create or replace function "get_user_assignable_tasks"("user_id" uuid, "company_id" uuid)
   returns table("id" uuid, "name" text)

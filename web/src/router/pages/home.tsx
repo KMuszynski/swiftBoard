@@ -2,10 +2,9 @@ import {Box, Button, Flex, Heading, Stack, Text} from '@chakra-ui/react'
 import {Link, Navigate} from 'react-router-dom'
 
 import {selectProfile} from '@/auth/state'
-import CompanyPanel from '@/company/panel'
 import {useAppSelector} from '@/store'
 
-import {EMPLOYEE_PANEL, REGISTER_COMAPNY} from '../paths'
+import {COMPANY_PANEL, EMPLOYEE_PANEL, REGISTER_COMAPNY} from '../paths'
 
 const Home = () => {
   const user = useAppSelector(selectProfile)
@@ -35,7 +34,7 @@ const Home = () => {
       </Stack>
     </Box>
   ) : user?.company_role === 'admin' ? (
-    <CompanyPanel />
+    <Navigate to={{pathname: COMPANY_PANEL}} />
   ) : (
     <Navigate to={{pathname: EMPLOYEE_PANEL}} />
   )

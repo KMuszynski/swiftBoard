@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {AddIcon, DeleteIcon, EditIcon} from '@chakra-ui/icons'
+import {AddIcon, DeleteIcon, EditIcon, HamburgerIcon} from '@chakra-ui/icons'
 import {
   Button,
   HStack,
@@ -16,6 +16,7 @@ import {
   Tr,
   useDisclosure,
 } from '@chakra-ui/react'
+import {Link, generatePath} from 'react-router-dom'
 
 import {supabase} from '@/api'
 import {CompanyEmployee} from '@/api/models'
@@ -23,6 +24,7 @@ import {selectProfile} from '@/auth/state'
 import DeleteResourceDialog from '@/common/components/delete-resource-dialog'
 import {useListQuery} from '@/common/hooks'
 import {emptyEmployee} from '@/company/costants'
+import {COMPANY_EMPLOYEE_VIEW} from '@/router/paths'
 import {useAppSelector} from '@/store'
 
 import AssignTaskModal from './assign-task-modal'
@@ -49,27 +51,27 @@ const Employees = () => {
   const handleAdd = React.useCallback(() => {
     setEmployee(emptyEmployee)
     editorModal.onOpen()
-  }, [])
+  }, [editorModal])
   const handleEdit = React.useCallback(
     (id: string) => {
       setEmployee(employees.find((e) => e.id === id) ?? emptyEmployee)
       editorModal.onOpen()
     },
-    [employees]
+    [editorModal, employees]
   )
   const handleAssignTask = React.useCallback(
     (id: string) => {
       setEmployee(employees.find((e) => e.id === id) ?? emptyEmployee)
       assignTaskModal.onOpen()
     },
-    [employees]
+    [assignTaskModal, employees]
   )
   const handleOpenDelete = React.useCallback(
     (id: string) => {
       setEmployee(employees.find((e) => e.id === id) ?? emptyEmployee)
       deleteDialog.onOpen()
     },
-    [employees]
+    [deleteDialog, employees]
   )
   const handleDelete = React.useCallback(async () => {
     const {error, count} = await supabase
@@ -176,6 +178,15 @@ const Row = ({item, onEdit, onAssignTask, onDelete}: RowProps) => {
               icon={<AddIcon />}
               size="sm"
               onClick={() => onAssignTask(item.id || '')}
+            />
+          </Tooltip>
+          <Tooltip label="Zobacz zadania">
+            <IconButton
+              as={Link}
+              to={generatePath(COMPANY_EMPLOYEE_VIEW, {id: item.id})}
+              aria-label="view-tasks"
+              icon={<HamburgerIcon />}
+              size="sm"
             />
           </Tooltip>
           <Tooltip label="Edytuj pracownika">
