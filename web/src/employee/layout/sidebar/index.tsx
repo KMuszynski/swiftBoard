@@ -1,6 +1,7 @@
 import {Avatar, Box, Divider, Flex, HStack, Spacer, Stack, Text} from '@chakra-ui/react'
 
 import {selectProfile} from '@/auth/state'
+import Logo from '@/router/layout/navbar/logo'
 import {useAppSelector} from '@/store'
 
 import UserMenu from './menu'
@@ -12,6 +13,9 @@ const EmployeeSidebar = () => {
   const user = useAppSelector(selectProfile)
   return !user ? null : (
     <Stack spacing={0} w="100%" bg="rgba(23, 25, 35, 0.5)">
+      <Flex w="100%" justify="center" p={2}>
+        <Logo />
+      </Flex>
       <HStack p={4} spacing={4}>
         <Avatar size="md" src={user.avatar_url || undefined} />
         <Flex direction="column">

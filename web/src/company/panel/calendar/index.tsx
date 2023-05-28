@@ -19,7 +19,7 @@ const CompanyCalendar = ({employee}: {employee: boolean}) => {
       setPrompts([
         {
           role: 'system',
-          content: `You are a helpful assistan. Current date: ${new Date().toISOString()}. In the next message you will receive an array of events with from and to times in json format use it when answering about questions about upcoming or past events. You should think of these events as meetings of the user you are having conversation with in his company calendar.`,
+          content: `You are a helpful assistant. Current date is: ${new Date().toISOString()}. In the next message you will receive an array of events with from and to times in json format use it when answering about questions about upcoming or past events. You should think of these events as meetings of the user you are having conversation with in his company calendar.`,
         },
         {role: 'system', content: JSON.stringify(events)},
         {
@@ -148,7 +148,7 @@ const CompanyCalendar = ({employee}: {employee: boolean}) => {
             </Flex>
           ))}
         </Flex>
-        <Flex align="stretch" position="relative" bg="gray.800">
+        <Flex align="stretch" position="relative" bg="gray.900">
           <Flex
             h="1440px" // 24 * 50 -> 1 px == 1 minute
             w="48px"
