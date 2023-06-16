@@ -7,7 +7,7 @@ import Select, {SingleValue} from 'react-select'
 
 import {ChatMessage} from '@/api/models'
 import {useLoadingState} from '@/common/hooks'
-import {OPENAI_API_KEY} from '@/constants'
+import {OPENAI_API_KEY, OPENAI_API_URL} from '@/constants'
 import {useAppDispatch, useAppSelector} from '@/store'
 import {selectStyles} from '@/theme/components/select'
 import {SelectOption} from '@/utils/types'
@@ -75,7 +75,7 @@ const Chat = () => {
       dispatch(setPrompts(newPrompts))
       setInput('')
 
-      const response = await fetch('http://localhost:3000/api/v1/chat/completions', {
+      const response = await fetch(OPENAI_API_URL + '/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
