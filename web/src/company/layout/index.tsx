@@ -3,9 +3,8 @@ import {Box, Flex, IconButton, Image, useDisclosure} from '@chakra-ui/react'
 import {Outlet} from 'react-router-dom'
 
 import Chat from '@/chat'
+import gradientBg from '@/common/assets/gradient-bg-2.png'
 import Navbar from '@/router/layout/navbar'
-
-import gradientBg from '/gradient-bg-2.png'
 
 const CompanyPanelLayout = () => {
   const {isOpen, onToggle} = useDisclosure({defaultIsOpen: false})

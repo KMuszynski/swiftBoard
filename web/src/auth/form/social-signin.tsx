@@ -6,7 +6,6 @@ import {FaLinkedin} from 'react-icons/fa'
 import {FcGoogle} from 'react-icons/fc'
 
 import {supabase} from '../../api'
-import {WEB_BASE_URL} from '../../constants'
 
 const SocialSignIn = ({isDisabled}) => {
   const toast = useToast()
@@ -19,7 +18,7 @@ const SocialSignIn = ({isDisabled}) => {
         const {error} = await supabase.auth.signInWithOAuth({
           provider,
           options: {
-            redirectTo: WEB_BASE_URL,
+            redirectTo: window.location.origin,
           },
         })
         if (error) throw error

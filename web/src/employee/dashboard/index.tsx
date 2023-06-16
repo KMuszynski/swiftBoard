@@ -9,6 +9,8 @@ import {setPrompts} from '@/chat/state'
 import LoadingView from '@/common/components/loading-view'
 import {useAppDispatch, useAppSelector} from '@/store'
 
+import graph from './swiftboard-graph.png'
+
 const Dashboard = () => {
   const user = useAppSelector(selectProfile)
   const dispatch = useAppDispatch()
@@ -45,7 +47,7 @@ const Dashboard = () => {
       <Box mb={3}>Tasks Completed: {user.points ? user.points : '77 / 100'}</Box>
       <Progress height={6} value={user.points ? user.points : 77} />
       <AspectRatio maxW="700px" ratio={945 / 561}>
-        <Image boxSize={6} src="swiftboard-graph.png" alt="BarGraph" />
+        <Image boxSize={6} src={graph} alt="BarGraph" />
       </AspectRatio>
     </Box>
   )

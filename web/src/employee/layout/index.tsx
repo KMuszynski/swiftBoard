@@ -2,9 +2,10 @@ import {ChevronLeftIcon} from '@chakra-ui/icons'
 import {Box, Flex, IconButton, Image, useDisclosure} from '@chakra-ui/react'
 import {Outlet} from 'react-router-dom'
 
+import gradientBg from '@/common/assets/gradient-bg-2.png'
+
 import Chat from '../../chat'
 import EmployeeSidebar from './sidebar'
-import gradientBg from '/gradient-bg-2.png'
 
 const EmployeePanelLayout = () => {
   const {isOpen, onToggle} = useDisclosure({defaultIsOpen: true})

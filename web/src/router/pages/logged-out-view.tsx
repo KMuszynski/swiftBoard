@@ -1,8 +1,8 @@
 import {Flex, Heading, Image, Stack, Text} from '@chakra-ui/react'
 
 import AuthForm from '@/auth/form'
+import gradientBg from '@/common/assets/gradient-bg-2.png'
 
-import gradientBg from '/gradient-bg-2.png'
 import wave from '/wave.svg'
 
 const LoggedOutView = () => (

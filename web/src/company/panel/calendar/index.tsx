@@ -11,7 +11,7 @@ import {events} from '@/company/costants'
 import {useAppDispatch} from '@/store'
 import {formatDate, formatEventDuration} from '@/utils/string'
 
-const CompanyCalendar = ({employee}: {employee: boolean}) => {
+const CompanyCalendar = ({employee}: {employee?: boolean}) => {
   const dispatch = useAppDispatch()
 
   React.useEffect(() => {

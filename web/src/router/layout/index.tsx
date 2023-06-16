@@ -2,10 +2,11 @@ import {Box, Image} from '@chakra-ui/react'
 import {useSelector} from 'react-redux'
 import {Outlet} from 'react-router'
 
+import gradientBg from '@/common/assets/gradient-bg-2.png'
+
 import {selectProfile} from '../../auth/state'
 import LoggedOutView from '../pages/logged-out-view'
 import Navbar from './navbar'
-import gradientBg from '/gradient-bg-2.png'
 
 const Layout = () => {
   const user = useSelector(selectProfile)
